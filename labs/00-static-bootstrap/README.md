@@ -1,13 +1,10 @@
 **English** | [日本語](README.ja.md)
 
-# Lab 00 — Static bootstrap
+# Lab 00. Static bootstrap
 
-The baseline. One Envoy, fully configured by a single static file, in front of
-one upstream. No control plane, no xDS. You will run a request through it and
-read the four object types out of the admin interface — the "before" picture for
-the rest of the repo.
+The baseline. One Envoy, fully configured by a single static file, in front of one upstream. No control plane, no xDS. You will run a request through it and read the four object types out of the admin interface: the "before" picture for the rest of the repo.
 
-Pairs with [docs 01 — Envoy config model](../../docs/01-envoy-config-model/README.md).
+Pairs with [docs 01 Envoy config model](../../docs/01-envoy-config-model/README.md).
 
 ## What is here
 
@@ -47,8 +44,7 @@ curl -s localhost:10000/
 
 ## Inspect the four object types
 
-Envoy organizes its state by the API that owns each object, even though this
-config is fully static:
+Envoy organizes its state by the API that owns each object, even though this config is fully static:
 
 ```bash
 curl -s localhost:9901/config_dump | \
@@ -78,9 +74,7 @@ envoy --mode validate -c envoy.yaml
 ## What to take away
 
 - A complete data path is just **listener → route → cluster → endpoint**.
-- The route references the cluster **by name** (`service_backend`); the endpoint
-  lives **inside** the cluster. The next labs pull each of these out and deliver
-  it dynamically — that is all xDS does.
+- The route references the cluster **by name** (`service_backend`); the endpoint lives **inside** the cluster. The next labs pull each of these out and deliver it dynamically: that is all xDS does.
 
 ## Teardown
 
@@ -88,4 +82,4 @@ envoy --mode validate -c envoy.yaml
 docker compose down
 ```
 
-Next: [Lab 01 — filesystem xDS](../01-filesystem-xds/README.md).
+Next: [Lab 01 filesystem xDS](../01-filesystem-xds/README.md).

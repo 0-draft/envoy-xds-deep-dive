@@ -1,26 +1,22 @@
 **English** | [日本語](README.ja.md)
 
-# Lab 01 — Filesystem xDS
+# Lab 01. Filesystem xDS
 
-The simplest possible "control plane": files on disk, and your text editor. Envoy
-discovers its listeners, routes, clusters, and endpoints from files and
-hot-reloads when they change. No gRPC, no code — so you can focus entirely on
-*what* each xDS resource is.
+The simplest possible "control plane": files on disk, and your text editor. Envoy discovers its listeners, routes, clusters, and endpoints from files and hot-reloads when they change. No gRPC, no code: so you can focus entirely on *what* each xDS resource is.
 
-Pairs with [docs 02 (overview)](../../docs/02-xds-overview/README.md),
-[03 (LDS)](../../docs/03-lds/README.md), and [04 (RDS)](../../docs/04-rds/README.md).
+Pairs with [docs 02 (overview)](../../docs/02-xds-overview/README.md), [03 (LDS)](../../docs/03-lds/README.md), and [04 (RDS)](../../docs/04-rds/README.md).
 
 ## What is here
 
 | File | xDS API | Holds |
 | --- | --- | --- |
-| `bootstrap.yaml` | — | only points LDS/CDS at the `xds/` directory |
+| `bootstrap.yaml` | n/a | only points LDS/CDS at the `xds/` directory |
 | `xds/lds.yaml` | LDS | the listener (hands off routing to RDS) |
 | `xds/rds.yaml` | RDS | the route config `local_route` |
 | `xds/cds.yaml` | CDS | the cluster `service_backend` (type EDS) |
 | `xds/eds.yaml` | EDS | two endpoints |
-| `reload.sh` | — | helper to trigger a hot reload reliably (see note) |
-| `variants/` | — | alternate resource files for experiments |
+| `reload.sh` | n/a | helper to trigger a hot reload reliably (see note) |
+| `variants/` | n/a | alternate resource files for experiments |
 
 ## The topology
 
@@ -64,8 +60,7 @@ hello from upstream1
 
 ## Watch EDS change live
 
-Shrink the cluster to a single endpoint and watch routing follow — **without
-restarting Envoy**:
+Shrink the cluster to a single endpoint and watch routing follow: **without restarting Envoy**:
 
 ```bash
 ./reload.sh eds.yaml variants/eds-one-endpoint.yaml
@@ -86,20 +81,12 @@ Restore both endpoints:
 
 ### Why `reload.sh` instead of editing the file directly?
 
-Envoy watches the `xds/` directory with inotify. On Docker Desktop / Rancher
-Desktop, **host-side file edits do not propagate inotify events into the Linux
-VM**, so Envoy never notices an edit you make in your editor. `reload.sh`
-performs the file swap *inside the container* (an atomic `mv` into the watched
-directory), which fires the event in the same kernel Envoy runs in. On native
-Linux, editing the file directly works too.
+Envoy watches the `xds/` directory with inotify. On Docker Desktop / Rancher Desktop, **host-side file edits do not propagate inotify events into the Linux VM**, so Envoy never notices an edit you make in your editor. `reload.sh` performs the file swap *inside the container* (an atomic `mv` into the watched directory), which fires the event in the same kernel Envoy runs in. On native Linux, editing the file directly works too.
 
 ## Things to try
 
-- Edit `xds/rds.yaml` to add a second route, reload, and confirm the listener
-  never restarted (`/config_dump` listener `version_info` is unchanged while the
-  route config version bumps).
-- Edit `xds/lds.yaml`'s `port_value`, reload, and watch the bound port change in
-  `/listeners`.
+- Edit `xds/rds.yaml` to add a second route, reload, and confirm the listener never restarted (`/config_dump` listener `version_info` is unchanged while the route config version bumps).
+- Edit `xds/lds.yaml`'s `port_value`, reload, and watch the bound port change in `/listeners`.
 
 ## Teardown
 
@@ -107,4 +94,4 @@ Linux, editing the file directly works too.
 docker compose down
 ```
 
-Next: [Lab 02 — gRPC control plane](../02-grpc-control-plane/README.md).
+Next: [Lab 02 gRPC control plane](../02-grpc-control-plane/README.md).

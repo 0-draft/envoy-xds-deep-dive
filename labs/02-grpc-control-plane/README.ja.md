@@ -1,13 +1,10 @@
 [English](README.md) | **日本語**
 
-# Lab 02 — gRPC コントロールプレーン (go-control-plane)
+# Lab 02. gRPC コントロールプレーン (go-control-plane)
 
-本物のコントロールプレーン。[`go-control-plane`](https://github.com/envoyproxy/go-control-plane)
-で作った小さな Go プログラムが、LDS + RDS + CDS + EDS を 1 本の **ADS gRPC ストリーム**で
-Envoy に配る。HTTP admin から操作し、Envoy の **ACK** と **NACK** をリアルタイムで見る。
+本物のコントロールプレーン。[`go-control-plane`](https://github.com/envoyproxy/go-control-plane) で作った小さな Go プログラムが、LDS + RDS + CDS + EDS を 1 本の **ADS gRPC ストリーム**で Envoy に配る。HTTP admin から操作し、Envoy の **ACK** と **NACK** をリアルタイムで見る。
 
-[docs 05（CDS）](../../docs/05-cds/README.ja.md)、[06（EDS）](../../docs/06-eds/README.ja.md) と対応し、
-章 [02（概観）](../../docs/02-xds-overview/README.ja.md) を実体化する。
+[docs 05（CDS）](../../docs/05-cds/README.ja.md)、[06（EDS）](../../docs/06-eds/README.ja.md) と対応し、章 [02（概観）](../../docs/02-xds-overview/README.ja.md) を実体化する。
 
 ## ここにあるもの
 
@@ -71,8 +68,7 @@ stream 1   ACK envoy.config.listener.v3.Listener version="1"
 stream 1   ACK envoy.config.route.v3.RouteConfiguration version="1"
 ```
 
-順序に注目: **Cluster (CDS) → endpoints (EDS) → Listener (LDS) → routes (RDS)**、
-各々の後に **ACK**。章 02 の「make before break」順序が、ワイヤ上で見えている。
+順序に注目: **Cluster (CDS) → endpoints (EDS) → Listener (LDS) → routes (RDS)**、各々の後に **ACK**。章 02 の「make before break」順序が、ワイヤ上で見えている。
 
 ## HTTP admin で操作する
 
@@ -110,15 +106,12 @@ gRPC config for ...Listener rejected:
   ... SocketAddressValidationError.PortValue: value must be less than or equal to 65535
 ```
 
-決定的な性質: **NACK は安全**。Envoy は直前の正常な listener（`version="1"`）を配り続けるので、
-その間も `curl localhost:10000` は動く。
+決定的な性質: **NACK は安全**。Envoy は直前の正常な listener（`version="1"`）を配り続けるので、その間も `curl localhost:10000` は動く。
 
 ## コントロールプレーンの仕組み
 
 - `resources.go` が 4 つのリソース型を protobuf メッセージとして組み立てる。
-- `main.go` がそれらを Envoy の **node id**（`lab02-node`）でキーした `Snapshot` に入れ、
-  ADS サーバから配る。`/scale`・`/break`・`/heal` のたびに新バージョンでスナップショットを
-  作り直し、再プッシュする。
+- `main.go` がそれらを Envoy の **node id**（`lab02-node`）でキーした `Snapshot` に入れ、 ADS サーバから配る。`/scale`・`/break`・`/heal` のたびに新バージョンでスナップショットを作り直し、再プッシュする。
 - `callbacks.go` が全 `DiscoveryRequest` をログに出し、ACK/NACK ループを上で見た行に変える。
 
 ## 片付け
@@ -127,4 +120,4 @@ gRPC config for ...Listener rejected:
 docker compose down
 ```
 
-次: [Lab 03 — kind での pod-to-pod](../03-pod-to-pod-kind/README.ja.md)。
+次: [Lab 03 kind での pod-to-pod](../03-pod-to-pod-kind/README.ja.md)。

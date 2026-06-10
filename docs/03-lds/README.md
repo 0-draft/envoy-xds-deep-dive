@@ -1,10 +1,8 @@
 **English** | [日本語](README.ja.md)
 
-# 03 — LDS (Listener Discovery Service)
+# 03. LDS (Listener Discovery Service)
 
-LDS discovers **Listeners**: the sockets Envoy opens and the filter chains that
-process traffic arriving on them. It is the *entry point* of the data path, so
-it sits at the top of the dependency chain.
+LDS discovers **Listeners**: the sockets Envoy opens and the filter chains that process traffic arriving on them. It is the *entry point* of the data path, so it sits at the top of the dependency chain.
 
 ```mermaid
 flowchart LR
@@ -27,17 +25,15 @@ flowchart LR
 ## What a Listener contains
 
 - **address**: the IP and port to bind (e.g. `0.0.0.0:10000`).
-- **filter_chains**: one or more chains of network filters. For HTTP, the key
-  filter is the **HTTP connection manager (HCM)**, which owns the routing.
+- **filter_chains**: one or more chains of network filters. For HTTP, the key filter is the **HTTP connection manager (HCM)**, which owns the routing.
 - Optional: TLS contexts, filter-chain matching (by SNI, source IP), and so on.
 
 The HCM gets its routes one of two ways:
 
-1. **inline** (`route_config:`) — the routes are part of the listener.
-2. **via RDS** (`rds:`) — the listener only names a route config; RDS delivers it.
+1. **inline** (`route_config:`): the routes are part of the listener.
+2. **via RDS** (`rds:`): the listener only names a route config; RDS delivers it.
 
-Choosing `rds` is what makes the LDS → RDS split real. The listener says "my
-routes are called `local_route`, fetch them separately":
+Choosing `rds` is what makes the LDS → RDS split real. The listener says "my routes are called `local_route`, fetch them separately":
 
 ```yaml
 - "@type": type.googleapis.com/envoy.config.listener.v3.Listener
@@ -60,14 +56,10 @@ routes are called `local_route`, fetch them separately":
 
 ## Dependency rules
 
-A listener references a route config (and ultimately clusters). Under "make
-before break":
+A listener references a route config (and ultimately clusters). Under "make before break":
 
-- The route config and clusters a listener needs should arrive **before** the
-  listener that references them — otherwise Envoy warms the listener with an
-  empty route table.
-- ADS enforces this by sending CDS/EDS first, then LDS, then RDS. Envoy can
-  "warm" a listener (hold it not-yet-serving) until its route config arrives.
+- The route config and clusters a listener needs should arrive **before** the listener that references them: otherwise Envoy warms the listener with an empty route table.
+- ADS enforces this by sending CDS/EDS first, then LDS, then RDS. Envoy can "warm" a listener (hold it not-yet-serving) until its route config arrives.
 
 ## Inspecting it
 
@@ -82,23 +74,14 @@ curl -s localhost:9901/config_dump?resource=dynamic_listeners | \
 curl -s localhost:9901/listeners
 ```
 
-A dynamically-delivered listener shows up under `dynamic_listeners` in the dump
-(a static one shows under `static_listeners`). Each carries the `version_info`
-it was last updated to — that number is the ACK you saw in chapter 02.
+A dynamically-delivered listener shows up under `dynamic_listeners` in the dump (a static one shows under `static_listeners`). Each carries the `version_info` it was last updated to: that number is the ACK you saw in chapter 02.
 
 ## Gotchas
 
-- **Listener draining**: replacing a listener is not free. Envoy drains the old
-  one gracefully, which is why you do not want to re-push listeners for changes
-  that really belong to RDS or EDS.
+- **Listener draining**: replacing a listener is not free. Envoy drains the old one gracefully, which is why you do not want to re-push listeners for changes that really belong to RDS or EDS.
 - **`stat_prefix` is required** on the HCM; without it Envoy NACKs.
-- **One bad listener does not take down the others**: LDS is SotW, but a single
-  invalid Listener resource causes Envoy to reject *that update*, keeping the
-  previous good set.
+- **One bad listener does not take down the others**: LDS is SotW, but a single invalid Listener resource causes Envoy to reject *that update*, keeping the previous good set.
 
 ## Try it
 
-[Lab 01](../../labs/01-filesystem-xds/README.md) delivers this exact listener via
-the filesystem. Open `xds/lds.yaml`, change the `port_value`, trigger a reload,
-and watch `/config_dump` pick up the new bound port. Next:
-[04 — RDS](../04-rds/README.md).
+[Lab 01](../../labs/01-filesystem-xds/README.md) delivers this exact listener via the filesystem. Open `xds/lds.yaml`, change the `port_value`, trigger a reload, and watch `/config_dump` pick up the new bound port. Next: [04 RDS](../04-rds/README.md).

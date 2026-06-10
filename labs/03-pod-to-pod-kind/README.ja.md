@@ -1,12 +1,10 @@
 [English](README.md) | **日本語**
 
-# Lab 03 — kind での pod-to-pod
+# Lab 03. kind での pod-to-pod
 
-最終章。実 Kubernetes クラスタ（`kind`）上の 2 ポッド。各々に Envoy **サイドカー**を持ち、
-1 つのメッシュ制御プレーンで結線される。`app-a` からのリクエストは **2 つ**の Envoy を越えて
-`app-b` に届き、`app-b` をスケールすると呼び出し側のエンドポイントが EDS でライブ更新される。
+最終章。実 Kubernetes クラスタ（`kind`）上の 2 ポッド。各々に Envoy **サイドカー**を持ち、 1 つのメッシュ制御プレーンで結線される。`app-a` からのリクエストは **2 つ**の Envoy を越えて `app-b` に届き、`app-b` をスケールすると呼び出し側のエンドポイントが EDS でライブ更新される。
 
-[docs 07 — pod-to-pod](../../docs/07-pod-to-pod/README.ja.md) と対応。
+[docs 07 pod-to-pod](../../docs/07-pod-to-pod/README.ja.md) と対応。
 
 ## ここにあるもの
 
@@ -62,8 +60,7 @@ kubectl wait --for=condition=Ready pod --all --timeout=120s
 
 ## pod-to-pod トラフィックを送る
 
-`app-a` は自分のサイドカーの `localhost:10000` を curl する。リクエストは両サイドカーを横断し、
-2 つの `app-b` ポッドにロードバランスされる:
+`app-a` は自分のサイドカーの `localhost:10000` を curl する。リクエストは両サイドカーを横断し、 2 つの `app-b` ポッドにロードバランスされる:
 
 ```bash
 for i in $(seq 1 6); do
@@ -84,8 +81,7 @@ hello from app-b (app-b-74f4fbc67d-rxh4w)
 
 ## EDS がポッドを追うのを見る
 
-`app-b` をスケールすると、制御プレーンが headless Service を再解決し、新しいエンドポイントを
-`app-a` のサイドカーへプッシュする:
+`app-b` をスケールすると、制御プレーンが headless Service を再解決し、新しいエンドポイントを `app-a` のサイドカーへプッシュする:
 
 ```bash
 kubectl scale deploy/app-b --replicas=3
@@ -109,8 +105,7 @@ done | sort | uniq -c
 
 ## 1 つの制御プレーン、2 つのノードアイデンティティ
 
-両サイドカーは 1 つの ADS ストリームのエンドポイントを共有する。制御プレーンは
-`--service-node` を根拠に別々の設定を配る:
+両サイドカーは 1 つの ADS ストリームのエンドポイントを共有する。制御プレーンは `--service-node` を根拠に別々の設定を配る:
 
 ```bash
 kubectl logs deploy/xds | grep -E 'node=app-(a|b).* ACK'
@@ -125,12 +120,8 @@ stream 4 node=app-b-sidecar  ACK ...Listener version="1"
 
 ## メッシュ制御プレーンの仕組み
 
-- `app-b-sidecar` には**静的**スナップショットを配る: `:15006` の inbound listener が
-  STATIC cluster `127.0.0.1:5678`（ローカルアプリ）へルーティングする。
-- `app-a-sidecar` には `:10000` の outbound listener が **EDS** cluster `app-b` へ
-  ルーティングする設定を配る。その cluster のエンドポイントは、`app-b` headless Service の
-  DNS を数秒ごとに解決して埋める — Kubernetes API を監視することの代役で、Istio の Pilot が
-  やっていることだ。
+- `app-b-sidecar` には**静的**スナップショットを配る: `:15006` の inbound listener が STATIC cluster `127.0.0.1:5678`（ローカルアプリ）へルーティングする。
+- `app-a-sidecar` には `:10000` の outbound listener が **EDS** cluster `app-b` へルーティングする設定を配る。その cluster のエンドポイントは、`app-b` headless Service の DNS を数秒ごとに解決して埋める。Kubernetes API を監視することの代役で、Istio の Pilot がやっていることだ。
 
 ## 片付け
 
@@ -138,5 +129,4 @@ stream 4 node=app-b-sidecar  ACK ...Listener version="1"
 kind delete cluster --name envoy-xds
 ```
 
-これでリポジトリは終わり。[用語集](../../docs/99-glossary/README.ja.md) か
-[トップ README](../../README.ja.md) に戻ろう。
+これでリポジトリは終わり。[用語集](../../docs/99-glossary/README.ja.md) か [トップ README](../../README.ja.md) に戻ろう。

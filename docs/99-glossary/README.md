@@ -1,6 +1,6 @@
 **English** | [日本語](README.ja.md)
 
-# 99 — Glossary & references
+# 99. Glossary & references
 
 ## Glossary
 
@@ -30,7 +30,7 @@
 | **Sidecar** | An Envoy proxying a single co-located app's inbound/outbound traffic. |
 | **Warming** | Envoy preparing a new cluster/listener (fetch endpoints, health-check) before serving with it. |
 | **SDS** | Secret Discovery Service: delivers TLS certs/keys; powers mutual TLS in a mesh. |
-| **go-control-plane** | The reference Go library for building xDS control planes (used in Labs 02–03). |
+| **go-control-plane** | The reference Go library for building xDS control planes (used in Labs 02-03). |
 
 ## How the four APIs relate (one-line recap)
 
@@ -51,19 +51,17 @@ flowchart LR
     classDef eds fill:#881337,stroke:#fb7185,color:#fff
 ```
 
-Read it as: a listener names a route config, a route names a cluster, a cluster
-names an endpoint set. ADS sends them in that dependency order (CDS/EDS before
-LDS/RDS) so references never dangle.
+Read it as: a listener names a route config, a route names a cluster, a cluster names an endpoint set. ADS sends them in that dependency order (CDS/EDS before LDS/RDS) so references never dangle.
 
 ## References
 
-- Envoy — xDS protocol: <https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol>
-- Envoy — Listener / LDS: <https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/lds>
-- Envoy — Route / RDS: <https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/rds>
-- Envoy — Cluster / CDS: <https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cds>
-- Envoy — Endpoint / EDS: <https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol#endpoint-discovery-service-eds>
-- Envoy — Dynamic configuration sandboxes: <https://www.envoyproxy.io/docs/envoy/latest/start/sandboxes/dynamic-configuration-filesystem>
-- Envoy — Admin interface: <https://www.envoyproxy.io/docs/envoy/latest/operations/admin>
+- Envoy: xDS protocol: <https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol>
+- Envoy: Listener / LDS: <https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/lds>
+- Envoy: Route / RDS: <https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/rds>
+- Envoy: Cluster / CDS: <https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cds>
+- Envoy: Endpoint / EDS: <https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol#endpoint-discovery-service-eds>
+- Envoy: Dynamic configuration sandboxes: <https://www.envoyproxy.io/docs/envoy/latest/start/sandboxes/dynamic-configuration-filesystem>
+- Envoy: Admin interface: <https://www.envoyproxy.io/docs/envoy/latest/operations/admin>
 - go-control-plane: <https://github.com/envoyproxy/go-control-plane>
 - kind: <https://kind.sigs.k8s.io/>
 - Istio architecture (a real xDS control plane): <https://istio.io/latest/docs/ops/deployment/architecture/>

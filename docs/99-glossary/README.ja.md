@@ -1,6 +1,6 @@
 [English](README.md) | **日本語**
 
-# 99 — 用語集・参考文献
+# 99. 用語集・参考文献
 
 ## 用語集
 
@@ -51,18 +51,17 @@ flowchart LR
     classDef eds fill:#881337,stroke:#fb7185,color:#fff
 ```
 
-読み方: listener は route config を名前で、route は cluster を名前で、cluster はエンドポイント
-集合を名前で指す。ADS はこの依存順（LDS/RDS より先に CDS/EDS）で送るので、参照が宙に浮かない。
+読み方: listener は route config を名前で、route は cluster を名前で、cluster はエンドポイント集合を名前で指す。ADS はこの依存順（LDS/RDS より先に CDS/EDS）で送るので、参照が宙に浮かない。
 
 ## 参考文献
 
-- Envoy — xDS プロトコル: <https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol>
-- Envoy — Listener / LDS: <https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/lds>
-- Envoy — Route / RDS: <https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/rds>
-- Envoy — Cluster / CDS: <https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cds>
-- Envoy — Endpoint / EDS: <https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol#endpoint-discovery-service-eds>
-- Envoy — 動的設定サンドボックス: <https://www.envoyproxy.io/docs/envoy/latest/start/sandboxes/dynamic-configuration-filesystem>
-- Envoy — 管理インターフェース: <https://www.envoyproxy.io/docs/envoy/latest/operations/admin>
+- Envoy。xDS プロトコル: <https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol>
+- Envoy。Listener / LDS: <https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/lds>
+- Envoy。Route / RDS: <https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/rds>
+- Envoy。Cluster / CDS: <https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cds>
+- Envoy。Endpoint / EDS: <https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol#endpoint-discovery-service-eds>
+- Envoy。動的設定サンドボックス: <https://www.envoyproxy.io/docs/envoy/latest/start/sandboxes/dynamic-configuration-filesystem>
+- Envoy。管理インターフェース: <https://www.envoyproxy.io/docs/envoy/latest/operations/admin>
 - go-control-plane: <https://github.com/envoyproxy/go-control-plane>
 - kind: <https://kind.sigs.k8s.io/>
 - Istio アーキテクチャ（本物の xDS コントロールプレーン）: <https://istio.io/latest/docs/ops/deployment/architecture/>

@@ -1,13 +1,10 @@
 **English** | [日本語](README.ja.md)
 
-# Lab 03 — Pod-to-pod on kind
+# Lab 03. Pod-to-pod on kind
 
-The finale. Two pods on a real Kubernetes cluster (`kind`), each with an Envoy
-**sidecar**, wired together by one mesh control plane. A request from `app-a`
-reaches `app-b` through **two** Envoys, and scaling `app-b` updates the caller's
-endpoints live via EDS.
+The finale. Two pods on a real Kubernetes cluster (`kind`), each with an Envoy **sidecar**, wired together by one mesh control plane. A request from `app-a` reaches `app-b` through **two** Envoys, and scaling `app-b` updates the caller's endpoints live via EDS.
 
-Pairs with [docs 07 — pod-to-pod](../../docs/07-pod-to-pod/README.md).
+Pairs with [docs 07 pod-to-pod](../../docs/07-pod-to-pod/README.md).
 
 ## What is here
 
@@ -63,8 +60,7 @@ kubectl wait --for=condition=Ready pod --all --timeout=120s
 
 ## Send pod-to-pod traffic
 
-`app-a` curls its own sidecar at `localhost:10000`; the request traverses both
-sidecars and is load-balanced across the two `app-b` pods:
+`app-a` curls its own sidecar at `localhost:10000`; the request traverses both sidecars and is load-balanced across the two `app-b` pods:
 
 ```bash
 for i in $(seq 1 6); do
@@ -85,8 +81,7 @@ Two distinct pod names = traffic really is balancing across app-b's pods.
 
 ## Watch EDS track the pods
 
-Scale `app-b` and the control plane re-resolves its headless Service and pushes
-new endpoints to `app-a`'s sidecar:
+Scale `app-b` and the control plane re-resolves its headless Service and pushes new endpoints to `app-a`'s sidecar:
 
 ```bash
 kubectl scale deploy/app-b --replicas=3
@@ -110,8 +105,7 @@ done | sort | uniq -c
 
 ## One control plane, two node identities
 
-Both sidecars share one ADS stream endpoint; the control plane serves them
-different config based on `--service-node`:
+Both sidecars share one ADS stream endpoint; the control plane serves them different config based on `--service-node`:
 
 ```bash
 kubectl logs deploy/xds | grep -E 'node=app-(a|b).* ACK'
@@ -126,12 +120,8 @@ stream 4 node=app-b-sidecar  ACK ...Listener version="1"
 
 ## How the mesh control plane works
 
-- It serves a **static** snapshot for `app-b-sidecar`: an inbound listener on
-  `:15006` routing to a STATIC cluster `127.0.0.1:5678` (the local app).
-- For `app-a-sidecar` it serves an outbound listener on `:10000` routing to an
-  **EDS** cluster `app-b`. It fills that cluster's endpoints by resolving the
-  `app-b` headless Service DNS every few seconds — a stand-in for watching the
-  Kubernetes API, which is what Istio's Pilot does.
+- It serves a **static** snapshot for `app-b-sidecar`: an inbound listener on `:15006` routing to a STATIC cluster `127.0.0.1:5678` (the local app).
+- For `app-a-sidecar` it serves an outbound listener on `:10000` routing to an **EDS** cluster `app-b`. It fills that cluster's endpoints by resolving the `app-b` headless Service DNS every few seconds: a stand-in for watching the Kubernetes API, which is what Istio's Pilot does.
 
 ## Teardown
 
@@ -139,5 +129,4 @@ stream 4 node=app-b-sidecar  ACK ...Listener version="1"
 kind delete cluster --name envoy-xds
 ```
 
-That is the whole repo. Loop back to the [glossary](../../docs/99-glossary/README.md)
-or the [top README](../../README.md).
+That is the whole repo. Loop back to the [glossary](../../docs/99-glossary/README.md) or the [top README](../../README.md).

@@ -1,15 +1,10 @@
 **English** | [日本語](README.ja.md)
 
-# Lab 02 — gRPC control plane (go-control-plane)
+# Lab 02. gRPC control plane (go-control-plane)
 
-A real control plane. A small Go program built on
-[`go-control-plane`](https://github.com/envoyproxy/go-control-plane) serves
-LDS + RDS + CDS + EDS to Envoy over a single **ADS gRPC stream**. You drive it
-through an HTTP admin and watch Envoy **ACK** and **NACK** in real time.
+A real control plane. A small Go program built on [`go-control-plane`](https://github.com/envoyproxy/go-control-plane) serves LDS + RDS + CDS + EDS to Envoy over a single **ADS gRPC stream**. You drive it through an HTTP admin and watch Envoy **ACK** and **NACK** in real time.
 
-Pairs with [docs 05 (CDS)](../../docs/05-cds/README.md) and
-[06 (EDS)](../../docs/06-eds/README.md), and brings chapter
-[02 (overview)](../../docs/02-xds-overview/README.md) to life.
+Pairs with [docs 05 (CDS)](../../docs/05-cds/README.md) and [06 (EDS)](../../docs/06-eds/README.md), and brings chapter [02 (overview)](../../docs/02-xds-overview/README.md) to life.
 
 ## What is here
 
@@ -73,9 +68,7 @@ stream 1   ACK envoy.config.listener.v3.Listener version="1"
 stream 1   ACK envoy.config.route.v3.RouteConfiguration version="1"
 ```
 
-Note the order: **Cluster (CDS) → endpoints (EDS) → Listener (LDS) → routes
-(RDS)**, each followed by an **ACK**. That is the "make before break" ordering
-from chapter 02, visible on the wire.
+Note the order: **Cluster (CDS) → endpoints (EDS) → Listener (LDS) → routes (RDS)**, each followed by an **ACK**. That is the "make before break" ordering from chapter 02, visible on the wire.
 
 ## Drive it via the HTTP admin
 
@@ -102,8 +95,7 @@ After `/break`, the control plane log shows Envoy rejecting the update:
 stream 1  NACK envoy.config.listener.v3.Listener version="2": goo.gle/debugonly
 ```
 
-The human-readable reason is redacted on the control-plane side; it lives in
-Envoy's own log:
+The human-readable reason is redacted on the control-plane side; it lives in Envoy's own log:
 
 ```bash
 docker compose logs envoy | grep -i rejected
@@ -114,17 +106,13 @@ gRPC config for ...Listener rejected:
   ... SocketAddressValidationError.PortValue: value must be less than or equal to 65535
 ```
 
-The key property: **a NACK is safe**. Envoy keeps serving the last good listener
-(`version="1"`), so `curl localhost:10000` still works throughout.
+The key property: **a NACK is safe**. Envoy keeps serving the last good listener (`version="1"`), so `curl localhost:10000` still works throughout.
 
 ## How the control plane works
 
 - `resources.go` builds the four resource types as protobuf messages.
-- `main.go` puts them in a `Snapshot`, keyed by the Envoy **node id**
-  (`lab02-node`), and serves it from the ADS server. Each `/scale`, `/break`,
-  `/heal` rebuilds the snapshot with a new version and re-pushes.
-- `callbacks.go` logs every `DiscoveryRequest`, turning the ACK/NACK loop into
-  the lines you saw above.
+- `main.go` puts them in a `Snapshot`, keyed by the Envoy **node id** (`lab02-node`), and serves it from the ADS server. Each `/scale`, `/break`, `/heal` rebuilds the snapshot with a new version and re-pushes.
+- `callbacks.go` logs every `DiscoveryRequest`, turning the ACK/NACK loop into the lines you saw above.
 
 ## Teardown
 
@@ -132,4 +120,4 @@ The key property: **a NACK is safe**. Envoy keeps serving the last good listener
 docker compose down
 ```
 
-Next: [Lab 03 — pod-to-pod on kind](../03-pod-to-pod-kind/README.md).
+Next: [Lab 03 pod-to-pod on kind](../03-pod-to-pod-kind/README.md).

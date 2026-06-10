@@ -1,12 +1,10 @@
 [English](README.md) | **日本語**
 
-# Lab 00 — 静的ブートストラップ
+# Lab 00. 静的ブートストラップ
 
-土台。1 つの静的ファイルで完全に構成された Envoy を 1 つ、1 つの upstream の前に置く。
-コントロールプレーンも xDS もない。リクエストを通し、管理インターフェースから 4 つの
-オブジェクト種別を読み出す — リポジトリ残りの「Before」の絵だ。
+土台。1 つの静的ファイルで完全に構成された Envoy を 1 つ、1 つの upstream の前に置く。コントロールプレーンも xDS もない。リクエストを通し、管理インターフェースから 4 つのオブジェクト種別を読み出す。リポジトリ残りの「Before」の絵だ。
 
-[docs 01 — Envoy 設定モデル](../../docs/01-envoy-config-model/README.ja.md) と対応。
+[docs 01 Envoy 設定モデル](../../docs/01-envoy-config-model/README.ja.md) と対応。
 
 ## ここにあるもの
 
@@ -76,8 +74,7 @@ envoy --mode validate -c envoy.yaml
 ## 持ち帰り
 
 - 完全なデータパスは **listener → route → cluster → endpoint** にすぎない。
-- route は cluster を**名前で**参照し（`service_backend`）、endpoint は cluster の**中**にいる。
-  次のラボはこれらを 1 つずつ外出しし、動的に配信する — xDS がやるのはそれだけだ。
+- route は cluster を**名前で**参照し（`service_backend`）、endpoint は cluster の**中**にいる。次のラボはこれらを 1 つずつ外出しし、動的に配信する。xDS がやるのはそれだけだ。
 
 ## 片付け
 
@@ -85,4 +82,4 @@ envoy --mode validate -c envoy.yaml
 docker compose down
 ```
 
-次: [Lab 01 — filesystem xDS](../01-filesystem-xds/README.ja.md)。
+次: [Lab 01 filesystem xDS](../01-filesystem-xds/README.ja.md)。
