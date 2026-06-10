@@ -45,6 +45,8 @@ The loop works like this:
 
 ```mermaid
 sequenceDiagram
+    accTitle: The xDS request, response, ACK and NACK loop
+    accDescr: Envoy requests resources, the control plane responds with a versioned, nonce-stamped response, and Envoy ACKs on success or NACKs with an error on failure while keeping the previous version.
     participant E as Envoy
     participant C as Control plane
     E->>C: DiscoveryRequest (type=Cluster, version="", nonce="")
@@ -93,6 +95,8 @@ There are two variants of the transport:
 
 ```mermaid
 stateDiagram-v2
+    accTitle: State-of-the-World versus Delta xDS
+    accDescr: Two transport variants. State-of-the-World sends the full set of resources for a type in every response. Delta sends only added or removed resources.
     [*] --> SotW
     [*] --> Delta
     SotW: State-of-the-World
@@ -117,9 +121,19 @@ The four resource types are not independent. They form a dependency chain:
 
 ```mermaid
 flowchart LR
-    L[Listener LDS] -- references --> R[RouteConfiguration RDS]
-    R -- references --> C[Cluster CDS]
-    C -- references --> E[ClusterLoadAssignment EDS]
+    accTitle: The xDS resource dependency chain
+    accDescr: A Listener references a RouteConfiguration, which references a Cluster, which references a ClusterLoadAssignment.
+    L[Listener<br/>LDS] -- references --> R[RouteConfiguration<br/>RDS]
+    R -- references --> C[Cluster<br/>CDS]
+    C -- references --> E[ClusterLoadAssignment<br/>EDS]
+    class L lds
+    class R rds
+    class C cds
+    class E eds
+    classDef lds fill:#1e3a8a,stroke:#60a5fa,color:#fff
+    classDef rds fill:#134e4a,stroke:#2dd4bf,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+    classDef eds fill:#881337,stroke:#fb7185,color:#fff
 ```
 
 A Listener names a route config; a route names a cluster; a cluster names an EDS

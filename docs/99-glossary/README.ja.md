@@ -36,9 +36,19 @@
 
 ```mermaid
 flowchart LR
+    accTitle: 4 つの xDS API と相互参照の仕方
+    accDescr: LDS は route_config_name で RDS を、RDS は cluster で CDS を、CDS は service_name で EDS を参照する。
     LDS -- route_config_name --> RDS
     RDS -- cluster --> CDS
     CDS -- service_name --> EDS
+    class LDS lds
+    class RDS rds
+    class CDS cds
+    class EDS eds
+    classDef lds fill:#1e3a8a,stroke:#60a5fa,color:#fff
+    classDef rds fill:#134e4a,stroke:#2dd4bf,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+    classDef eds fill:#881337,stroke:#fb7185,color:#fff
 ```
 
 読み方: listener は route config を名前で、route は cluster を名前で、cluster はエンドポイント

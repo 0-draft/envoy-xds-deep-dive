@@ -36,9 +36,19 @@
 
 ```mermaid
 flowchart LR
+    accTitle: The four xDS APIs and how they reference each other
+    accDescr: LDS references RDS by route_config_name, RDS references CDS by cluster, CDS references EDS by service_name.
     LDS -- route_config_name --> RDS
     RDS -- cluster --> CDS
     CDS -- service_name --> EDS
+    class LDS lds
+    class RDS rds
+    class CDS cds
+    class EDS eds
+    classDef lds fill:#1e3a8a,stroke:#60a5fa,color:#fff
+    classDef rds fill:#134e4a,stroke:#2dd4bf,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+    classDef eds fill:#881337,stroke:#fb7185,color:#fff
 ```
 
 Read it as: a listener names a route config, a route names a cluster, a cluster

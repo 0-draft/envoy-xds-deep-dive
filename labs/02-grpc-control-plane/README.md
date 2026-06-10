@@ -23,13 +23,21 @@ Pairs with [docs 05 (CDS)](../../docs/05-cds/README.md) and
 
 ```mermaid
 flowchart LR
+    accTitle: Lab 02 topology
+    accDescr: A go-control-plane control plane serves ADS gRPC (LDS/RDS/CDS/EDS) to Envoy on port 18000 with an HTTP admin on 19000. curl reaches Envoy on 10000, which load-balances via EDS across upstream1 and upstream2.
     subgraph cp[control plane :18000 ADS / :19000 admin]
         g[go-control-plane]
     end
-    you[curl] -- ":10000" --> envoy[Envoy]
+    you((curl)) -- ":10000" --> envoy[Envoy]
     g == "ADS gRPC<br/>LDS/RDS/CDS/EDS" ==> envoy
     envoy -- EDS --> u1[(upstream1)]
     envoy -- EDS --> u2[(upstream2)]
+    class g cp
+    class envoy envoy
+    class you,u1,u2 ext
+    classDef cp fill:#3730a3,stroke:#a5b4fc,color:#fff
+    classDef envoy fill:#0e7490,stroke:#22d3ee,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 ## Run it

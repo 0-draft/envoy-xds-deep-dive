@@ -24,6 +24,8 @@ Pairs with [docs 07 — pod-to-pod](../../docs/07-pod-to-pod/README.md).
 
 ```mermaid
 flowchart LR
+    accTitle: Lab 03 pod-to-pod topology on kind
+    accDescr: The xDS control plane (Service xds:18000) configures both sidecars. In pod app-a, the app calls localhost:10000 on its app-a sidecar, which sends to the app-b sidecar at podIP:15006 via EDS, which forwards to app-b http-echo on 127.0.0.1:5678.
     xds[xDS control plane<br/>Service: xds:18000]
     subgraph pa[Pod app-a]
         a[app-a curl] -- localhost:10000 --> ea[Envoy<br/>app-a-sidecar]
@@ -34,6 +36,12 @@ flowchart LR
     ea -- "podIP:15006 (EDS)" --> eb
     xds -- outbound config --> ea
     xds -- inbound config --> eb
+    class xds cp
+    class ea,eb envoy
+    class a,b ext
+    classDef cp fill:#3730a3,stroke:#a5b4fc,color:#fff
+    classDef envoy fill:#0e7490,stroke:#22d3ee,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 ## Run it

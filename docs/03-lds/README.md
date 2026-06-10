@@ -8,10 +8,20 @@ it sits at the top of the dependency chain.
 
 ```mermaid
 flowchart LR
-    L[Listener LDS] -- references route config --> R[RouteConfiguration RDS]
-    R --> C[Cluster CDS]
-    C --> E[ClusterLoadAssignment EDS]
-    style L stroke-width:3px
+    accTitle: Where LDS sits in the dependency chain
+    accDescr: The Listener, served by LDS, is highlighted at the top of the chain. It references a RouteConfiguration, then a Cluster, then a ClusterLoadAssignment.
+    L[Listener<br/>LDS] -- references route config --> R[RouteConfiguration<br/>RDS]
+    R --> C[Cluster<br/>CDS]
+    C --> E[ClusterLoadAssignment<br/>EDS]
+    class L lds
+    class R rds
+    class C cds
+    class E eds
+    style L stroke:#fff,stroke-width:4px
+    classDef lds fill:#1e3a8a,stroke:#60a5fa,color:#fff
+    classDef rds fill:#134e4a,stroke:#2dd4bf,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+    classDef eds fill:#881337,stroke:#fb7185,color:#fff
 ```
 
 ## What a Listener contains

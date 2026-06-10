@@ -28,6 +28,8 @@ needs to route a request:
 
 ```mermaid
 flowchart LR
+    accTitle: How xDS configures the Envoy data path
+    accDescr: A control-plane xDS server pushes LDS, RDS, CDS and EDS to Envoy. A request flows from client to Listener to Route to Cluster to Endpoint to backend pod.
     subgraph CP[Control plane]
         X[xDS server]
     end
@@ -37,18 +39,36 @@ flowchart LR
         C[Cluster<br/>CDS]
         E[Endpoints<br/>EDS]
     end
-    X -- "LDS: where to listen" --> L
-    X -- "RDS: how to match + route" --> R
-    X -- "CDS: what backends exist" --> C
-    X -- "EDS: which IPs are healthy" --> E
+    X -- "where to listen" --> L
+    X -- "how to match + route" --> R
+    X -- "what backends exist" --> C
+    X -- "which IPs are healthy" --> E
     L --> R --> C --> E
-    client[client] --> L
+    client((client)) --> L
     E --> backend[(backend pod)]
+    class X cp
+    class L lds
+    class R rds
+    class C cds
+    class E eds
+    class client,backend ext
+    classDef cp fill:#3730a3,stroke:#a5b4fc,color:#fff
+    classDef lds fill:#1e3a8a,stroke:#60a5fa,color:#fff
+    classDef rds fill:#134e4a,stroke:#2dd4bf,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+    classDef eds fill:#881337,stroke:#fb7185,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 A request enters a **Listener**, is matched by a **Route** to a **Cluster**, and
 is load-balanced to one **Endpoint**. xDS is just the delivery mechanism for
 each of those four boxes.
+
+> **Diagram legend (used consistently throughout this repo):**
+> blue = Listener / LDS, teal = Route / RDS, amber = Cluster / CDS,
+> rose = Endpoints / EDS, indigo = control plane, cyan = Envoy / data plane,
+> gray = external actor. External actors also use distinct shapes
+> (circle = client, cylinder = backend) so the diagrams never rely on color alone.
 
 ## Reading order
 

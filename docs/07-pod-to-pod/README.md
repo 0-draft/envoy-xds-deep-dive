@@ -23,6 +23,8 @@ So a single request from `app-a` to `app-b` crosses **two** Envoys.
 
 ```mermaid
 flowchart LR
+    accTitle: Pod-to-pod request through two Envoy sidecars
+    accDescr: One control plane configures both sidecars. app-a calls localhost:10000 on its outbound sidecar, which sends to an app-b pod IP on port 15006 (an EDS endpoint) at app-b's inbound sidecar, which forwards to the local app on 127.0.0.1:5678.
     subgraph cp[Control plane - one ADS server]
         xds[xDS server<br/>resolves app-b pods]
     end
@@ -43,6 +45,12 @@ flowchart LR
     a -- "1. localhost:10000" --> ea
     ea -- "2. podIP:15006<br/>(EDS endpoint)" --> eb
     eb -- "3. 127.0.0.1:5678" --> b
+    class xds cp
+    class ea,eb envoy
+    class a,b ext
+    classDef cp fill:#3730a3,stroke:#a5b4fc,color:#fff
+    classDef envoy fill:#0e7490,stroke:#22d3ee,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 Trace one request:

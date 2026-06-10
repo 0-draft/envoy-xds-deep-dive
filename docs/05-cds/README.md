@@ -9,10 +9,20 @@ defer *which* hosts back it to EDS.
 
 ```mermaid
 flowchart LR
-    L[Listener LDS] --> R[RouteConfiguration RDS]
-    R --> C[Cluster CDS]
-    C -- "type: EDS" --> E[ClusterLoadAssignment EDS]
-    style C stroke-width:3px
+    accTitle: Where CDS sits in the dependency chain
+    accDescr: The Cluster, served by CDS, is highlighted. A Route points to it, and when its type is EDS it defers its endpoints to a ClusterLoadAssignment.
+    L[Listener<br/>LDS] --> R[RouteConfiguration<br/>RDS]
+    R --> C[Cluster<br/>CDS]
+    C -- "type: EDS" --> E[ClusterLoadAssignment<br/>EDS]
+    class L lds
+    class R rds
+    class C cds
+    class E eds
+    style C stroke:#fff,stroke-width:4px
+    classDef lds fill:#1e3a8a,stroke:#60a5fa,color:#fff
+    classDef rds fill:#134e4a,stroke:#2dd4bf,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+    classDef eds fill:#881337,stroke:#fb7185,color:#fff
 ```
 
 ## How a cluster discovers its endpoints

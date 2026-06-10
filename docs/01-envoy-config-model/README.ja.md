@@ -13,6 +13,8 @@
 
 ```mermaid
 flowchart TD
+    accTitle: 静的 Envoy 設定のオブジェクト木
+    accDescr: bootstrap config は static_resources を持ち、その中に Listener と Cluster がある。Listener は filter chain, HTTP connection manager, RouteConfiguration, virtual_host, route を入れ子に持つ。route は Cluster を名前で参照する。Cluster は endpoint を含む load_assignment を持つ。
     boot[bootstrap config] --> sr[static_resources]
     sr --> lst[Listener<br/>name + address]
     sr --> cl[Cluster<br/>name + lb_policy]
@@ -24,6 +26,14 @@ flowchart TD
     rt -. 名前で参照 .-> cl
     cl --> la[load_assignment]
     la --> ep[endpoint<br/>address ip:port]
+    class lst lds
+    class rc rds
+    class cl cds
+    class ep eds
+    classDef lds fill:#1e3a8a,stroke:#60a5fa,color:#fff
+    classDef rds fill:#134e4a,stroke:#2dd4bf,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+    classDef eds fill:#881337,stroke:#fb7185,color:#fff
 ```
 
 xDS が後で分割するのはまさにこの 2 点なので、注目しておく。

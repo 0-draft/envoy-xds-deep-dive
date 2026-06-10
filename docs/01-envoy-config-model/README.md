@@ -14,6 +14,8 @@ the objects nest like this:
 
 ```mermaid
 flowchart TD
+    accTitle: The static Envoy config object tree
+    accDescr: A bootstrap config holds static_resources containing a Listener and a Cluster. The Listener nests a filter chain, HTTP connection manager, RouteConfiguration, virtual_host and route. The route references the Cluster by name. The Cluster holds a load_assignment with an endpoint.
     boot[bootstrap config] --> sr[static_resources]
     sr --> lst[Listener<br/>name + address]
     sr --> cl[Cluster<br/>name + lb_policy]
@@ -25,6 +27,14 @@ flowchart TD
     rt -. by name .-> cl
     cl --> la[load_assignment]
     la --> ep[endpoint<br/>address ip:port]
+    class lst lds
+    class rc rds
+    class cl cds
+    class ep eds
+    classDef lds fill:#1e3a8a,stroke:#60a5fa,color:#fff
+    classDef rds fill:#134e4a,stroke:#2dd4bf,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+    classDef eds fill:#881337,stroke:#fb7185,color:#fff
 ```
 
 Two things to notice, because they are exactly what xDS later splits apart:

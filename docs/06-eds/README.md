@@ -8,10 +8,20 @@ the dependency chain and the data that changes most often.
 
 ```mermaid
 flowchart LR
-    L[Listener LDS] --> R[RouteConfiguration RDS]
-    R --> C[Cluster CDS]
-    C --> E[ClusterLoadAssignment EDS]
-    style E stroke-width:3px
+    accTitle: Where EDS sits in the dependency chain
+    accDescr: The ClusterLoadAssignment, served by EDS, is highlighted at the bottom of the chain after Listener, RouteConfiguration and Cluster.
+    L[Listener<br/>LDS] --> R[RouteConfiguration<br/>RDS]
+    R --> C[Cluster<br/>CDS]
+    C --> E[ClusterLoadAssignment<br/>EDS]
+    class L lds
+    class R rds
+    class C cds
+    class E eds
+    style E stroke:#fff,stroke-width:4px
+    classDef lds fill:#1e3a8a,stroke:#60a5fa,color:#fff
+    classDef rds fill:#134e4a,stroke:#2dd4bf,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+    classDef eds fill:#881337,stroke:#fb7185,color:#fff
 ```
 
 ## What a ClusterLoadAssignment contains

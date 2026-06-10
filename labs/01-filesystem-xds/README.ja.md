@@ -25,10 +25,18 @@ gRPC もコードもない — だから各 xDS リソースが*何*であるか
 
 ```mermaid
 flowchart LR
-    you[curl] -- ":10000" --> envoy[Envoy]
+    accTitle: Lab 01 トポロジ
+    accDescr: curl がポート 10000 で Envoy に送る。Envoy は EDS で upstream1 と upstream2 にラウンドロビンする。ディスク上の xDS ファイルがコントロールプレーンとして働き、Envoy が監視する。
+    you((curl)) -- ":10000" --> envoy[Envoy]
     envoy -- EDS ラウンドロビン --> u1[(upstream1<br/>10.77.0.11)]
     envoy -- EDS ラウンドロビン --> u2[(upstream2<br/>10.77.0.12)]
     files[ディスク上の xds/*.yaml] -. 監視 .-> envoy
+    class envoy envoy
+    class files cp
+    class you,u1,u2 ext
+    classDef envoy fill:#0e7490,stroke:#22d3ee,color:#fff
+    classDef cp fill:#3730a3,stroke:#a5b4fc,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 ## 実行する

@@ -8,10 +8,20 @@ LDS and CDS.
 
 ```mermaid
 flowchart LR
-    L[Listener LDS] --> R[RouteConfiguration RDS]
-    R -- routes to cluster by name --> C[Cluster CDS]
-    C --> E[ClusterLoadAssignment EDS]
-    style R stroke-width:3px
+    accTitle: Where RDS sits in the dependency chain
+    accDescr: The RouteConfiguration, served by RDS, is highlighted. A Listener points to it, and it routes to a Cluster by name, which references a ClusterLoadAssignment.
+    L[Listener<br/>LDS] --> R[RouteConfiguration<br/>RDS]
+    R -- routes to cluster by name --> C[Cluster<br/>CDS]
+    C --> E[ClusterLoadAssignment<br/>EDS]
+    class L lds
+    class R rds
+    class C cds
+    class E eds
+    style R stroke:#fff,stroke-width:4px
+    classDef lds fill:#1e3a8a,stroke:#60a5fa,color:#fff
+    classDef rds fill:#134e4a,stroke:#2dd4bf,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+    classDef eds fill:#881337,stroke:#fb7185,color:#fff
 ```
 
 ## What a RouteConfiguration contains

@@ -20,9 +20,15 @@ Pairs with [docs 01 — Envoy config model](../../docs/01-envoy-config-model/REA
 
 ```mermaid
 flowchart LR
-    you[curl] -- ":10000" --> envoy[Envoy]
+    accTitle: Lab 00 topology
+    accDescr: curl sends to Envoy on port 10000, Envoy forwards to the http-echo upstream on port 5678, and the admin interface is on port 9901.
+    you((curl)) -- ":10000" --> envoy[Envoy]
     envoy -- ":5678" --> up[(http-echo<br/>upstream)]
     envoy -. admin :9901 .-> you
+    class envoy envoy
+    class you,up ext
+    classDef envoy fill:#0e7490,stroke:#22d3ee,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 ## Run it

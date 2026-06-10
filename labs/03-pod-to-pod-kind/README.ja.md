@@ -23,6 +23,8 @@
 
 ```mermaid
 flowchart LR
+    accTitle: kind 上の Lab 03 pod-to-pod トポロジ
+    accDescr: xDS 制御プレーン（Service xds:18000）が両サイドカーを構成する。pod app-a で app は app-a サイドカーの localhost:10000 を呼び、EDS 経由で app-b サイドカーの podIP:15006 へ送られ、127.0.0.1:5678 の app-b http-echo へ転送される。
     xds[xDS 制御プレーン<br/>Service: xds:18000]
     subgraph pa[Pod app-a]
         a[app-a curl] -- localhost:10000 --> ea[Envoy<br/>app-a-sidecar]
@@ -33,6 +35,12 @@ flowchart LR
     ea -- "podIP:15006 (EDS)" --> eb
     xds -- outbound 設定 --> ea
     xds -- inbound 設定 --> eb
+    class xds cp
+    class ea,eb envoy
+    class a,b ext
+    classDef cp fill:#3730a3,stroke:#a5b4fc,color:#fff
+    classDef envoy fill:#0e7490,stroke:#22d3ee,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 ## 実行する

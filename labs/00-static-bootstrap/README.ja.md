@@ -19,9 +19,15 @@
 
 ```mermaid
 flowchart LR
-    you[curl] -- ":10000" --> envoy[Envoy]
+    accTitle: Lab 00 トポロジ
+    accDescr: curl がポート 10000 で Envoy に送り、Envoy はポート 5678 の http-echo upstream へ転送する。管理インターフェースはポート 9901。
+    you((curl)) -- ":10000" --> envoy[Envoy]
     envoy -- ":5678" --> up[(http-echo<br/>upstream)]
     envoy -. admin :9901 .-> you
+    class envoy envoy
+    class you,up ext
+    classDef envoy fill:#0e7490,stroke:#22d3ee,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 ## 実行する

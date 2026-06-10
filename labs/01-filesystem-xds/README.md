@@ -26,10 +26,18 @@ Pairs with [docs 02 (overview)](../../docs/02-xds-overview/README.md),
 
 ```mermaid
 flowchart LR
-    you[curl] -- ":10000" --> envoy[Envoy]
+    accTitle: Lab 01 topology
+    accDescr: curl sends to Envoy on port 10000. Envoy round-robins via EDS across upstream1 and upstream2. The xDS files on disk act as the control plane and are watched by Envoy.
+    you((curl)) -- ":10000" --> envoy[Envoy]
     envoy -- EDS round-robin --> u1[(upstream1<br/>10.77.0.11)]
     envoy -- EDS round-robin --> u2[(upstream2<br/>10.77.0.12)]
     files[xds/*.yaml on disk] -. watched .-> envoy
+    class envoy envoy
+    class files cp
+    class you,u1,u2 ext
+    classDef envoy fill:#0e7490,stroke:#22d3ee,color:#fff
+    classDef cp fill:#3730a3,stroke:#a5b4fc,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 ## Run it

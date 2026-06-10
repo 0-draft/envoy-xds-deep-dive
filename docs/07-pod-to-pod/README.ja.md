@@ -21,6 +21,8 @@
 
 ```mermaid
 flowchart LR
+    accTitle: 2 つの Envoy サイドカーを越える pod-to-pod リクエスト
+    accDescr: 1 つのコントロールプレーンが両サイドカーを構成する。app-a は自分の outbound サイドカーの localhost:10000 を呼び、そこから app-b のポッド IP のポート 15006（EDS エンドポイント）= app-b の inbound サイドカーへ送られ、127.0.0.1:5678 のローカルアプリへ転送される。
     subgraph cp[コントロールプレーン - 1 つの ADS サーバ]
         xds[xDS サーバ<br/>app-b ポッドを解決]
     end
@@ -41,6 +43,12 @@ flowchart LR
     a -- "1. localhost:10000" --> ea
     ea -- "2. podIP:15006<br/>(EDS エンドポイント)" --> eb
     eb -- "3. 127.0.0.1:5678" --> b
+    class xds cp
+    class ea,eb envoy
+    class a,b ext
+    classDef cp fill:#3730a3,stroke:#a5b4fc,color:#fff
+    classDef envoy fill:#0e7490,stroke:#22d3ee,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 1 リクエストを追う。

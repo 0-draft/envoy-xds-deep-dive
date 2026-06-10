@@ -47,6 +47,8 @@ This is the single most important distinction in the whole repo.
 
 ```mermaid
 flowchart TB
+    accTitle: Control plane vs data plane
+    accDescr: The control-plane xDS server configures Envoy over xDS, off the request hot path. The client sends requests through Envoy to the backend, on the hot path.
     subgraph control[Control plane - off the hot path]
         cp[xDS server]
     end
@@ -54,7 +56,13 @@ flowchart TB
         envoy[Envoy]
     end
     cp -- "config over xDS" --> envoy
-    client[client] -- request --> envoy -- request --> backend[(backend)]
+    client((client)) -- request --> envoy -- request --> backend[(backend)]
+    class cp cp
+    class envoy envoy
+    class client,backend ext
+    classDef cp fill:#3730a3,stroke:#a5b4fc,color:#fff
+    classDef envoy fill:#0e7490,stroke:#22d3ee,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 xDS is the protocol spoken on that downward arrow. Everything in this repo is
@@ -83,13 +91,25 @@ nouns — they are exactly the four xDS APIs.
 
 ```mermaid
 flowchart LR
-    req[incoming request] --> lst[Listener<br/>accept on ip:port]
+    accTitle: The request lifecycle through Envoy
+    accDescr: An incoming request passes through a Listener, a filter chain, a Route match, a Cluster, a load balancer, and one Endpoint before reaching the upstream.
+    req((request)) --> lst[Listener<br/>accept on ip:port]
     lst --> fc[filter chain<br/>HTTP connection manager]
     fc --> rt[Route<br/>match host + path]
     rt --> cl[Cluster<br/>a named backend pool]
     cl --> lb[load balancer<br/>pick one]
     lb --> ep[Endpoint<br/>a concrete ip:port]
     ep --> up[(upstream)]
+    class lst lds
+    class rt rds
+    class cl cds
+    class ep eds
+    class req,up ext
+    classDef lds fill:#1e3a8a,stroke:#60a5fa,color:#fff
+    classDef rds fill:#134e4a,stroke:#2dd4bf,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+    classDef eds fill:#881337,stroke:#fb7185,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 1. A **Listener** accepts the connection on an IP and port.

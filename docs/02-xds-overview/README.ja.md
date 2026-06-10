@@ -42,6 +42,8 @@ gRPC 上で、Envoy とコントロールプレーンは長命ストリーム上
 
 ```mermaid
 sequenceDiagram
+    accTitle: xDS の request, response, ACK, NACK ループ
+    accDescr: Envoy がリソースを要求し、コントロールプレーンがバージョンと nonce 付きで応答し、Envoy は成功時に ACK、失敗時は前バージョンを保ったまま error 付きで NACK する。
     participant E as Envoy
     participant C as コントロールプレーン
     E->>C: DiscoveryRequest (type=Cluster, version="", nonce="")
@@ -87,6 +89,8 @@ stream 1  NACK Listener version="2": ... PortValue: value must be <= 65535
 
 ```mermaid
 stateDiagram-v2
+    accTitle: State-of-the-World と Delta の比較
+    accDescr: 2 つのトランスポート方式。State-of-the-World は各レスポンスでその型の全リソースを送る。Delta は追加または削除された差分だけを送る。
     [*] --> SotW
     [*] --> Delta
     SotW: State-of-the-World
@@ -109,9 +113,19 @@ stateDiagram-v2
 
 ```mermaid
 flowchart LR
-    L[Listener LDS] -- 参照 --> R[RouteConfiguration RDS]
-    R -- 参照 --> C[Cluster CDS]
-    C -- 参照 --> E[ClusterLoadAssignment EDS]
+    accTitle: xDS リソースの依存チェーン
+    accDescr: Listener は RouteConfiguration を参照し、それは Cluster を、Cluster は ClusterLoadAssignment を参照する。
+    L[Listener<br/>LDS] -- 参照 --> R[RouteConfiguration<br/>RDS]
+    R -- 参照 --> C[Cluster<br/>CDS]
+    C -- 参照 --> E[ClusterLoadAssignment<br/>EDS]
+    class L lds
+    class R rds
+    class C cds
+    class E eds
+    classDef lds fill:#1e3a8a,stroke:#60a5fa,color:#fff
+    classDef rds fill:#134e4a,stroke:#2dd4bf,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+    classDef eds fill:#881337,stroke:#fb7185,color:#fff
 ```
 
 Listener は route config を名前で指し、route は cluster を指し、cluster は EDS サービスを指す。

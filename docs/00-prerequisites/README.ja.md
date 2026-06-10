@@ -44,6 +44,8 @@ Envoy は両方をこなすが、面白い xDS ルーティング（RDS）は L7
 
 ```mermaid
 flowchart TB
+    accTitle: コントロールプレーンとデータプレーン
+    accDescr: コントロールプレーンの xDS サーバが xDS 経由で Envoy を設定する。ホットパス外だ。クライアントは Envoy を通してバックエンドへリクエストを送る。これはホットパス上。
     subgraph control[コントロールプレーン - ホットパス外]
         cp[xDS サーバ]
     end
@@ -51,7 +53,13 @@ flowchart TB
         envoy[Envoy]
     end
     cp -- "xDS で設定配信" --> envoy
-    client[クライアント] -- リクエスト --> envoy -- リクエスト --> backend[(バックエンド)]
+    client((クライアント)) -- リクエスト --> envoy -- リクエスト --> backend[(バックエンド)]
+    class cp cp
+    class envoy envoy
+    class client,backend ext
+    classDef cp fill:#3730a3,stroke:#a5b4fc,color:#fff
+    classDef envoy fill:#0e7490,stroke:#22d3ee,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 xDS は、その下向き矢印の上で話されるプロトコル。このリポジトリはすべてこの矢印の話だ。
@@ -77,13 +85,25 @@ gRPC 版（Lab 02）に行く前に、まず xDS のもっと単純な配信を 
 
 ```mermaid
 flowchart LR
-    req[受信リクエスト] --> lst[Listener<br/>ip:port で受理]
+    accTitle: Envoy を通るリクエストの一生
+    accDescr: 受信リクエストは Listener, フィルタチェーン, Route の一致, Cluster, ロードバランサ, 1 つの Endpoint を経てアップストリームに到達する。
+    req((リクエスト)) --> lst[Listener<br/>ip:port で受理]
     lst --> fc[フィルタチェーン<br/>HTTP connection manager]
     fc --> rt[Route<br/>host + path で一致]
     rt --> cl[Cluster<br/>名前付きバックエンド群]
     cl --> lb[ロードバランサ<br/>1 つ選ぶ]
     lb --> ep[Endpoint<br/>具体的な ip:port]
     ep --> up[(アップストリーム)]
+    class lst lds
+    class rt rds
+    class cl cds
+    class ep eds
+    class req,up ext
+    classDef lds fill:#1e3a8a,stroke:#60a5fa,color:#fff
+    classDef rds fill:#134e4a,stroke:#2dd4bf,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+    classDef eds fill:#881337,stroke:#fb7185,color:#fff
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
 ```
 
 1. **Listener** が IP とポートで接続を受理する。
