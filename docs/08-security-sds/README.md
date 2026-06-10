@@ -1,6 +1,6 @@
 **English** | [日本語](README.ja.md)
 
-# 08 — Security: SDS and mutual TLS
+# 08. Security: SDS and mutual TLS
 
 The pod-to-pod hop in [Lab 03](../../labs/03-pod-to-pod-kind/README.md) is
 **plaintext**. That was deliberate: it keeps the xDS mechanics in focus. But a
@@ -54,8 +54,8 @@ flowchart LR
 The identity lives in the certificate's SAN (subject alternative name). A common
 scheme is **SPIFFE**, where the SAN is a URI like
 `spiffe://cluster.local/ns/default/sa/app-a`. So "is the caller allowed?" becomes
-"does its cert say it is `app-a`, signed by our CA?" — authentication the network
-cannot forge.
+"does its cert say it is `app-a`, signed by our CA?" That is authentication the
+network cannot forge.
 
 ## Where it attaches: the same listeners and clusters
 
@@ -96,7 +96,7 @@ transport_socket:
 ```
 
 So the full picture is: **LDS** gives you the listener, **RDS/CDS/EDS** route and
-reach the backend, and **SDS** secures the wire — all on the same ADS stream.
+reach the backend, and **SDS** secures the wire, all on the same ADS stream.
 
 ## How this maps to Lab 03 and to Istio
 
@@ -124,5 +124,5 @@ serve `SecretType` resources and adding the `transport_socket` blocks above.
 
 There is no lab for this chapter. Continue to the
 [glossary and references](../99-glossary/README.md), or revisit
-[07 — pod-to-pod](../07-pod-to-pod/README.md) and picture each hop wrapped in
+[07 pod-to-pod](../07-pod-to-pod/README.md) and picture each hop wrapped in
 mTLS.

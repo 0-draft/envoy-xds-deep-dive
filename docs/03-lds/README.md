@@ -82,7 +82,7 @@ Two rules to remember:
   `typed_per_filter_config` on the route, but the *set* of filters is a listener
   concern.
 
-This is the answer to "where does authn/authz/rate-limiting happen?" — not in the
+This is the answer to where authn / authz / rate-limiting happens: not in the
 route or the cluster, but in the HTTP filter chain that the listener carries.
 
 ## Dependency rules
