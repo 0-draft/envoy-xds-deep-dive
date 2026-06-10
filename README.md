@@ -1,6 +1,6 @@
 **English** | [日本語](README.ja.md)
 
-![A control plane character streams four colored config ribbons (LDS, RDS, CDS, EDS) down to two Envoy proxy sidecar characters that pass a data packet between two app pods.](assets/header.png)
+![A control plane character streams four colored config ribbons (LDS, RDS, CDS, EDS) down to two Envoy proxy sidecar characters that pass a data packet between two app pods.](assets/header-v2.png)
 
 # envoy-xds-deep-dive
 

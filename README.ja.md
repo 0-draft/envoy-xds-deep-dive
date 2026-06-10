@@ -1,6 +1,6 @@
 [English](README.md) | **日本語**
 
-![コントロールプレーンのキャラクターが 4 本の色つき設定リボン（LDS, RDS, CDS, EDS）を 2 匹の Envoy サイドカーキャラに流し、2 つのアプリポッドの間でデータパケットを受け渡している。](assets/header.png)
+![コントロールプレーンのキャラクターが 4 本の色つき設定リボン（LDS, RDS, CDS, EDS）を 2 匹の Envoy サイドカーキャラに流し、2 つのアプリポッドの間でデータパケットを受け渡している。](assets/header-v2.png)
 
 # envoy-xds-deep-dive
 
