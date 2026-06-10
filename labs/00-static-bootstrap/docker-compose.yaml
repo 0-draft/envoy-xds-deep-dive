@@ -4,7 +4,7 @@
 #                            envoy admin   :9901
 services:
   envoy:
-    image: envoyproxy/envoy:v1.38-latest
+    image: envoyproxy/envoy:v1.38.1
     command: ["-c", "/etc/envoy/envoy.yaml", "-l", "info"]
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml:ro
@@ -15,5 +15,5 @@ services:
       - upstream
 
   upstream:
-    image: hashicorp/http-echo:latest
+    image: hashicorp/http-echo:1.0.0
     command: ["-text=hello from upstream (static endpoint)", "-listen=:5678"]

@@ -1,5 +1,7 @@
 **English** | [日本語](README.ja.md)
 
+![A control plane character streams four colored config ribbons (LDS, RDS, CDS, EDS) down to two Envoy proxy sidecar characters that pass a data packet between two app pods.](assets/header.png)
+
 # envoy-xds-deep-dive
 
 A read-top-to-bottom, run-as-you-go deep dive into **Envoy's dynamic configuration APIs** (LDS, RDS, CDS, and EDS) built around a single concrete goal: **make one pod talk to another pod through Envoy sidecars, and watch the control plane program every hop.**
@@ -109,3 +111,7 @@ envoy-xds-deep-dive/
 - `kind` and `kubectl` (Lab 03 only)
 
 Start at [00 Prerequisites](docs/00-prerequisites/README.md).
+
+## License
+
+[MIT](LICENSE).

@@ -1,5 +1,7 @@
 [English](README.md) | **日本語**
 
+![コントロールプレーンのキャラクターが 4 本の色つき設定リボン（LDS, RDS, CDS, EDS）を 2 匹の Envoy サイドカーキャラに流し、2 つのアプリポッドの間でデータパケットを受け渡している。](assets/header.png)
+
 # envoy-xds-deep-dive
 
 **Envoy の動的コンフィグ API** (LDS / RDS / CDS / EDS) を、上から下へ読み進め、手を動かしながら理解する深掘りリポジトリ。テーマは一つに絞ってある: **あるポッドから別のポッドへ Envoy サイドカー越しに通信させ、コントロールプレーンが各ホップをどう構成するかを観察する。**
@@ -109,3 +111,7 @@ envoy-xds-deep-dive/
 - `kind` と `kubectl`（Lab 03 のみ）
 
 まずは [00 前提知識](docs/00-prerequisites/README.ja.md) から。
+
+## ライセンス
+
+[MIT](LICENSE)。

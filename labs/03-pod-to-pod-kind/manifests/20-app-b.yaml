@@ -22,7 +22,7 @@ spec:
       containers:
         # The real workload.
         - name: app
-          image: hashicorp/http-echo:latest
+          image: hashicorp/http-echo:1.0.0
           args: ["-text=hello from app-b ($(POD_NAME))", "-listen=:5678"]
           env:
             - name: POD_NAME
@@ -31,7 +31,7 @@ spec:
                   fieldPath: metadata.name
         # The inbound sidecar.
         - name: envoy
-          image: envoyproxy/envoy:v1.38-latest
+          image: envoyproxy/envoy:v1.38.1
           command: ["/usr/local/bin/envoy"]
           args:
             - "-c"

@@ -1,0 +1,17 @@
+// Repo-local markdownlint-cli2 config.
+// Mirrors the author's global ~/.markdownlint-cli2.jsonc so that CI (which cannot
+// see the global file) enforces exactly the same rules a contributor sees locally.
+// This is not a suppression hack: every disabled rule below is intentional
+// (long lines from single-line CJK paragraphs, a language-toggle first line, etc.).
+{
+  "config": {
+    "default": true,
+    "MD013": false, // line-length: docs use single-line paragraphs (CJK render fix)
+    "MD024": false, // duplicate headings: chapters reuse "Try it", "Gotchas", etc.
+    "MD033": { "allowed_elements": ["picture", "source", "img"] },
+    "MD036": false, // emphasis-as-heading
+    "MD041": false, // first-line-heading: files start with a language-toggle line
+    "MD060": false  // table column style
+  },
+  "ignores": ["**/node_modules/**"]
+}

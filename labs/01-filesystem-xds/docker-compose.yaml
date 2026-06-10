@@ -6,7 +6,7 @@
 # the same way a control plane names concrete pod IPs.
 services:
   envoy:
-    image: envoyproxy/envoy:v1.38-latest
+    image: envoyproxy/envoy:v1.38.1
     command: ["-c", "/etc/envoy/bootstrap.yaml", "-l", "info"]
     volumes:
       - ./bootstrap.yaml:/etc/envoy/bootstrap.yaml:ro
@@ -19,14 +19,14 @@ services:
         ipv4_address: 10.77.0.2
 
   upstream1:
-    image: hashicorp/http-echo:latest
+    image: hashicorp/http-echo:1.0.0
     command: ["-text=hello from upstream1", "-listen=:5678"]
     networks:
       lab:
         ipv4_address: 10.77.0.11
 
   upstream2:
-    image: hashicorp/http-echo:latest
+    image: hashicorp/http-echo:1.0.0
     command: ["-text=hello from upstream2", "-listen=:5678"]
     networks:
       lab:

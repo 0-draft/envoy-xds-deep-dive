@@ -21,11 +21,11 @@ spec:
       containers:
         # The "app": a long-running container we exec curl from.
         - name: app
-          image: curlimages/curl:latest
+          image: curlimages/curl:8.13.0
           command: ["sleep", "infinity"]
         # The outbound sidecar: localhost:10000 -> app-b pods.
         - name: envoy
-          image: envoyproxy/envoy:v1.38-latest
+          image: envoyproxy/envoy:v1.38.1
           command: ["/usr/local/bin/envoy"]
           args:
             - "-c"
