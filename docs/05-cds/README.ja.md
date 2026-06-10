@@ -82,7 +82,7 @@ curl https://shop.example.com/api/orders/42
 4. **コネクションプール**: `.7` への既存接続を再利用、無ければ `connect_timeout` 以内に新規（アップストリーム mTLS）。
 5. **転送**: その接続で `GET /api/orders/42` を送る。
 
-つまり cluster は **宛先 1 つ分の実行単位**。「`api` へ送れ」を「この健全な pod・この接続・この上限で」に変換する。admin から同じ出来事が cluster 視点で見える。
+つまり cluster は **宛先 1 つ分の実行単位**。「`api` へ送れ」を「この健全な pod・この接続・この上限で」に変換する。admin から同じ出来事が cluster 視点で見える（下の IP と数値は説明用。`cluster::ip:port::stat` のキー形式は Envoy が実際に出すものと同一で、Lab 02 で確認できる）。
 
 ```text
 api::10.0.1.7:8080::health_flags::healthy

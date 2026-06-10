@@ -82,7 +82,7 @@ Steps 1-3 only *choose a cluster by name*. Everything in step 4 is the cluster's
 4. **Connection pool**: reuse a pooled connection to `.7`, or open one within `connect_timeout` (with upstream mTLS).
 5. **Forward**: send `GET /api/orders/42` over that connection.
 
-So the cluster is the **execution unit for one destination**: it turns "send to `api`" into "this healthy pod, this connection, these limits". The admin interface shows the same events from the cluster's point of view:
+So the cluster is the **execution unit for one destination**: it turns "send to `api`" into "this healthy pod, this connection, these limits". The admin interface shows the same events from the cluster's point of view (the IPs and counts below are illustrative, but the `cluster::ip:port::stat` key format is exactly what Envoy emits, as you can confirm in Lab 02):
 
 ```text
 api::10.0.1.7:8080::health_flags::healthy

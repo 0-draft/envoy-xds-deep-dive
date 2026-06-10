@@ -105,7 +105,7 @@ envoy-xds-deep-dive/
 
 - `docker` と `docker compose`
 - `envoy`（任意。ローカルでの `--mode validate` 用）。ラボでは Envoy を Docker で動かす
-- `go` 1.24 以降（コントロールプレーンのイメージを再ビルドする場合のみ。通常は Docker がビルドする）
+- `go` 1.25 以降（コントロールプレーンのイメージを再ビルドする場合のみ。通常は Docker がビルドする）
 - `kind` と `kubectl`（Lab 03 のみ）
 
 まずは [00 前提知識](docs/00-prerequisites/README.ja.md) から。

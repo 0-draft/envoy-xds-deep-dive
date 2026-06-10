@@ -15,7 +15,7 @@
 
 - **全ラボ**: `docker` + `docker compose`。
 - **Lab 03 のみ追加**: `kind` と `kubectl`。
-- コントロールプレーンのイメージ再ビルドには `go` 1.24+ が要るが、`docker compose up --build` の中で Docker が代わりにやってくれる。
+- コントロールプレーンのイメージ再ビルドには `go` 1.25+ が要るが、`docker compose up --build` の中で Docker が代わりにやってくれる。
 
 ## 約束ごと
 

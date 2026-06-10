@@ -105,7 +105,7 @@ envoy-xds-deep-dive/
 
 - `docker` and `docker compose`
 - `envoy` (optional, for local `--mode validate`); the labs run Envoy in Docker
-- `go` 1.24+ (only to rebuild the control plane images; Docker builds them for you)
+- `go` 1.25+ (only to rebuild the control plane images; Docker builds them for you)
 - `kind` and `kubectl` (Lab 03 only)
 
 Start at [00 Prerequisites](docs/00-prerequisites/README.md).

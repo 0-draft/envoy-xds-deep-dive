@@ -1,6 +1,6 @@
 module github.com/kanywst/envoy-xds-deep-dive/labs/02-grpc-control-plane/control-plane
 
-go 1.26.4
+go 1.25.0
 
 require (
 	github.com/envoyproxy/go-control-plane v0.14.0

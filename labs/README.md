@@ -15,7 +15,7 @@ Four hands-on labs that climb from a fully static Envoy to a two-pod mesh on Kub
 
 - **All labs**: `docker` + `docker compose`.
 - **Lab 03 also**: `kind` and `kubectl`.
-- Rebuilding the control-plane images needs `go` 1.24+, but Docker does that for you during `docker compose up --build`.
+- Rebuilding the control-plane images needs `go` 1.25+, but Docker does that for you during `docker compose up --build`.
 
 ## Conventions
 
