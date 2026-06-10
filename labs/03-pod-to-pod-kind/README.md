@@ -8,14 +8,14 @@ Pairs with [docs 07 pod-to-pod](../../docs/07-pod-to-pod/README.md).
 
 ## What is here
 
-| Path | Role |
-| --- | --- |
-| `kind-cluster.yaml` | a 2-node kind cluster |
-| `control-plane/` | mesh control plane: serves per-node config, resolves app-b pods |
-| `manifests/00-configmap-bootstrap.yaml` | the shared sidecar bootstrap |
-| `manifests/10-control-plane.yaml` | control plane Deployment + Service `xds` |
-| `manifests/20-app-b.yaml` | app-b (http-echo) + inbound sidecar, headless Service |
-| `manifests/30-app-a.yaml` | app-a (curl) + outbound sidecar |
+| Path                                    | Role                                                            |
+| --------------------------------------- | --------------------------------------------------------------- |
+| `kind-cluster.yaml`                     | a 2-node kind cluster                                           |
+| `control-plane/`                        | mesh control plane: serves per-node config, resolves app-b pods |
+| `manifests/00-configmap-bootstrap.yaml` | the shared sidecar bootstrap                                    |
+| `manifests/10-control-plane.yaml`       | control plane Deployment + Service `xds`                        |
+| `manifests/20-app-b.yaml`               | app-b (http-echo) + inbound sidecar, headless Service           |
+| `manifests/30-app-a.yaml`               | app-a (curl) + outbound sidecar                                 |
 
 ## The topology
 

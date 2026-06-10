@@ -94,12 +94,12 @@ flowchart LR
 
 Each noun is discovered by its own xDS API:
 
-| Noun | xDS API | Full name |
-| --- | --- | --- |
-| Listener | LDS | Listener Discovery Service |
-| Route | RDS | Route Discovery Service |
-| Cluster | CDS | Cluster Discovery Service |
-| Endpoint | EDS | Endpoint Discovery Service |
+| Noun     | xDS API | Full name                  |
+| -------- | ------- | -------------------------- |
+| Listener | LDS     | Listener Discovery Service |
+| Route    | RDS     | Route Discovery Service    |
+| Cluster  | CDS     | Cluster Discovery Service  |
+| Endpoint | EDS     | Endpoint Discovery Service |
 
 ## Key terms you will see constantly
 

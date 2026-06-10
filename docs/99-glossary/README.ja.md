@@ -4,33 +4,33 @@
 
 ## 用語集
 
-| 用語 | 意味 |
-| --- | --- |
-| **xDS** | Envoy が設定を動的に取得するための「x Discovery Service」API ファミリー。 |
-| **データプレーン** | リクエストのバイトを動かすプロキシ（Envoy）。ホットパス上。 |
-| **コントロールプレーン** | 設定を計算しデータプレーンへプッシュするサービス。ホットパス外。 |
-| **Bootstrap** | 起動時に Envoy が読む静的設定ファイル。最低限、コントロールプレーンへの到達方法。 |
-| **Listener** | Envoy がバインドするソケットと、そのトラフィックを処理するフィルタチェーン。**LDS** が配信。 |
-| **フィルタチェーン** | 接続に適用される順序付きネットワークフィルタ。HTTP では HTTP connection manager。 |
-| **HCM** | HTTP connection manager: HTTP を解析しルーティングを走らせる L7 フィルタ。 |
-| **RouteConfiguration** | リクエストを cluster に一致させる virtual host + route 群。**RDS** が配信。 |
-| **Cluster** | 接続ポリシーを持つ名前付きアップストリーム群。**CDS** が配信。 |
-| **ClusterLoadAssignment** | cluster を支えるエンドポイントリスト（IP、健全性、ロケーション）。**EDS** が配信。 |
-| **Endpoint** | 具体的なアップストリーム 1 つ `ip:port`。 |
-| **ADS** | Aggregated Discovery Service: 全リソース型を 1 本の順序付き gRPC ストリームに。 |
-| **SotW** | State-of-the-World: 各レスポンスがその型の全リソース集合を運ぶ。 |
-| **Delta / Incremental** | 各レスポンスが追加/削除されたリソースだけを運ぶ。 |
-| **DiscoveryRequest** | Envoy → コントロールプレーンのメッセージ。リソースを要求し、直前のレスポンスを ACK/NACK する。 |
-| **DiscoveryResponse** | コントロールプレーン → Envoy のメッセージ。あるバージョンのリソースを運び、nonce が刻印される。 |
-| **version_info** | Envoy が正常に適用した設定バージョン。ACK でエコーされる。 |
-| **nonce** | request（ACK/NACK）が、それが答えるレスポンスと対応することを示す識別子。 |
-| **ACK** | Envoy がプッシュされた設定バージョンを受理・適用した。 |
-| **NACK** | Envoy がプッシュを拒否した。直前のバージョンを保ち `error_detail` を報告する。 |
-| **node id** | Envoy が自分を名乗る方法。コントロールプレーンはこれでプロキシごとの設定をキーする。 |
-| **サイドカー** | 同居する単一アプリの inbound/outbound を代理する Envoy。 |
-| **ウォーミング** | 新しい cluster/listener を使い始める前に Envoy が準備する（エンドポイント取得、ヘルスチェック）。 |
-| **SDS** | Secret Discovery Service: TLS 証明書/鍵を配信。メッシュの相互 TLS を支える。 |
-| **go-control-plane** | xDS コントロールプレーンを構築する Go の参照ライブラリ（Lab 02〜03 で使用）。 |
+| 用語                      | 意味                                                                                              |
+| ------------------------- | ------------------------------------------------------------------------------------------------- |
+| **xDS**                   | Envoy が設定を動的に取得するための「x Discovery Service」API ファミリー。                         |
+| **データプレーン**        | リクエストのバイトを動かすプロキシ（Envoy）。ホットパス上。                                       |
+| **コントロールプレーン**  | 設定を計算しデータプレーンへプッシュするサービス。ホットパス外。                                  |
+| **Bootstrap**             | 起動時に Envoy が読む静的設定ファイル。最低限、コントロールプレーンへの到達方法。                 |
+| **Listener**              | Envoy がバインドするソケットと、そのトラフィックを処理するフィルタチェーン。**LDS** が配信。      |
+| **フィルタチェーン**      | 接続に適用される順序付きネットワークフィルタ。HTTP では HTTP connection manager。                 |
+| **HCM**                   | HTTP connection manager: HTTP を解析しルーティングを走らせる L7 フィルタ。                        |
+| **RouteConfiguration**    | リクエストを cluster に一致させる virtual host + route 群。**RDS** が配信。                       |
+| **Cluster**               | 接続ポリシーを持つ名前付きアップストリーム群。**CDS** が配信。                                    |
+| **ClusterLoadAssignment** | cluster を支えるエンドポイントリスト（IP、健全性、ロケーション）。**EDS** が配信。                |
+| **Endpoint**              | 具体的なアップストリーム 1 つ `ip:port`。                                                         |
+| **ADS**                   | Aggregated Discovery Service: 全リソース型を 1 本の順序付き gRPC ストリームに。                   |
+| **SotW**                  | State-of-the-World: 各レスポンスがその型の全リソース集合を運ぶ。                                  |
+| **Delta / Incremental**   | 各レスポンスが追加/削除されたリソースだけを運ぶ。                                                 |
+| **DiscoveryRequest**      | Envoy → コントロールプレーンのメッセージ。リソースを要求し、直前のレスポンスを ACK/NACK する。    |
+| **DiscoveryResponse**     | コントロールプレーン → Envoy のメッセージ。あるバージョンのリソースを運び、nonce が刻印される。   |
+| **version_info**          | Envoy が正常に適用した設定バージョン。ACK でエコーされる。                                        |
+| **nonce**                 | request（ACK/NACK）が、それが答えるレスポンスと対応することを示す識別子。                         |
+| **ACK**                   | Envoy がプッシュされた設定バージョンを受理・適用した。                                            |
+| **NACK**                  | Envoy がプッシュを拒否した。直前のバージョンを保ち `error_detail` を報告する。                    |
+| **node id**               | Envoy が自分を名乗る方法。コントロールプレーンはこれでプロキシごとの設定をキーする。              |
+| **サイドカー**            | 同居する単一アプリの inbound/outbound を代理する Envoy。                                          |
+| **ウォーミング**          | 新しい cluster/listener を使い始める前に Envoy が準備する（エンドポイント取得、ヘルスチェック）。 |
+| **SDS**                   | Secret Discovery Service: TLS 証明書/鍵を配信。メッシュの相互 TLS を支える。                      |
+| **go-control-plane**      | xDS コントロールプレーンを構築する Go の参照ライブラリ（Lab 02〜03 で使用）。                     |
 
 ## 4 つの API の関係（1 行のおさらい）
 

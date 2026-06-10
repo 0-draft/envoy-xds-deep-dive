@@ -8,11 +8,11 @@
 
 ## ここにあるもの
 
-| パス | 役割 |
-| --- | --- |
-| `bootstrap.yaml` | Envoy: コントロールプレーンを指す静的 `xds_cluster`（HTTP/2）だけ |
-| `control-plane/` | Go の ADS サーバ（`main.go`, `resources.go`, `callbacks.go`） |
-| `docker-compose.yaml` | コントロールプレーン + Envoy + 2 つの upstream |
+| パス                  | 役割                                                              |
+| --------------------- | ----------------------------------------------------------------- |
+| `bootstrap.yaml`      | Envoy: コントロールプレーンを指す静的 `xds_cluster`（HTTP/2）だけ |
+| `control-plane/`      | Go の ADS サーバ（`main.go`, `resources.go`, `callbacks.go`）     |
+| `docker-compose.yaml` | コントロールプレーン + Envoy + 2 つの upstream                    |
 
 ## トポロジ
 

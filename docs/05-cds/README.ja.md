@@ -26,11 +26,11 @@ flowchart LR
 
 cluster の `type` フィールドが、エンドポイントの出どころを決める。
 
-| type | エンドポイントの出どころ | 使う場所 |
-| --- | --- | --- |
-| `STATIC` | インラインの `load_assignment`（直書き IP） | Lab 00, Lab 03（ループバック） |
-| `STRICT_DNS` / `LOGICAL_DNS` | ホスト名の DNS 解決 | Lab 00 の upstream |
-| `EDS` | EDS API | Lab 01, 02, 03 |
+| type                         | エンドポイントの出どころ                    | 使う場所                       |
+| ---------------------------- | ------------------------------------------- | ------------------------------ |
+| `STATIC`                     | インラインの `load_assignment`（直書き IP） | Lab 00, Lab 03（ループバック） |
+| `STRICT_DNS` / `LOGICAL_DNS` | ホスト名の DNS 解決                         | Lab 00 の upstream             |
+| `EDS`                        | EDS API                                     | Lab 01, 02, 03                 |
 
 面白いのは EDS 形式だ。cluster は「自分の中にエンドポイントを探すな。X という名前の load assignment を EDS に聞け」と言う。
 

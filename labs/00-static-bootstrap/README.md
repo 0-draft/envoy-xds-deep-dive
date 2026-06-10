@@ -8,10 +8,10 @@ Pairs with [docs 01 Envoy config model](../../docs/01-envoy-config-model/README.
 
 ## What is here
 
-| File | Role |
-| --- | --- |
-| `envoy.yaml` | the whole config: a static listener, route, cluster, endpoint |
-| `docker-compose.yaml` | Envoy + one `http-echo` upstream |
+| File                  | Role                                                          |
+| --------------------- | ------------------------------------------------------------- |
+| `envoy.yaml`          | the whole config: a static listener, route, cluster, endpoint |
+| `docker-compose.yaml` | Envoy + one `http-echo` upstream                              |
 
 ## The topology
 

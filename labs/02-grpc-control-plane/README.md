@@ -8,11 +8,11 @@ Pairs with [docs 05 (CDS)](../../docs/05-cds/README.md) and [06 (EDS)](../../doc
 
 ## What is here
 
-| Path | Role |
-| --- | --- |
-| `bootstrap.yaml` | Envoy: only the static `xds_cluster` (HTTP/2) pointing at the control plane |
-| `control-plane/` | the Go ADS server (`main.go`, `resources.go`, `callbacks.go`) |
-| `docker-compose.yaml` | control plane + Envoy + two upstreams |
+| Path                  | Role                                                                        |
+| --------------------- | --------------------------------------------------------------------------- |
+| `bootstrap.yaml`      | Envoy: only the static `xds_cluster` (HTTP/2) pointing at the control plane |
+| `control-plane/`      | the Go ADS server (`main.go`, `resources.go`, `callbacks.go`)               |
+| `docker-compose.yaml` | control plane + Envoy + two upstreams                                       |
 
 ## The topology
 

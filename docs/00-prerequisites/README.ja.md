@@ -94,12 +94,12 @@ flowchart LR
 
 各名詞は、それぞれ専用の xDS API で配信される。
 
-| 名詞 | xDS API | 正式名称 |
-| --- | --- | --- |
-| Listener | LDS | Listener Discovery Service |
-| Route | RDS | Route Discovery Service |
-| Cluster | CDS | Cluster Discovery Service |
-| Endpoint | EDS | Endpoint Discovery Service |
+| 名詞     | xDS API | 正式名称                   |
+| -------- | ------- | -------------------------- |
+| Listener | LDS     | Listener Discovery Service |
+| Route    | RDS     | Route Discovery Service    |
+| Cluster  | CDS     | Cluster Discovery Service  |
+| Endpoint | EDS     | Endpoint Discovery Service |
 
 ## これから頻繁に出てくる用語
 

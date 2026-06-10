@@ -6,14 +6,14 @@
 
 ## ファミリー
 
-| API | リソース型 | 配信するもの |
-| --- | --- | --- |
-| LDS | Listener | Envoy がどこで待ち受けるか |
-| RDS | RouteConfiguration | リクエストをどう一致・転送するか |
-| CDS | Cluster | どんなアップストリーム群があるか |
-| EDS | ClusterLoadAssignment | cluster を支えるエンドポイント IP |
-| SDS | Secret | TLS 証明書と鍵 |
-| ADS | (上記すべて) | 全型を 1 本の順序付きストリームで運ぶ |
+| API | リソース型            | 配信するもの                          |
+| --- | --------------------- | ------------------------------------- |
+| LDS | Listener              | Envoy がどこで待ち受けるか            |
+| RDS | RouteConfiguration    | リクエストをどう一致・転送するか      |
+| CDS | Cluster               | どんなアップストリーム群があるか      |
+| EDS | ClusterLoadAssignment | cluster を支えるエンドポイント IP     |
+| SDS | Secret                | TLS 証明書と鍵                        |
+| ADS | (上記すべて)          | 全型を 1 本の順序付きストリームで運ぶ |
 
 このリポジトリは LDS / RDS / CDS / EDS に集中し、**ADS** でそれらを運ぶ。
 

@@ -8,15 +8,15 @@
 
 ## ここにあるもの
 
-| ファイル | xDS API | 中身 |
-| --- | --- | --- |
-| `bootstrap.yaml` | n/a | LDS/CDS を `xds/` ディレクトリに向けるだけ |
-| `xds/lds.yaml` | LDS | listener（ルーティングは RDS へ引き継ぐ） |
-| `xds/rds.yaml` | RDS | route config `local_route` |
-| `xds/cds.yaml` | CDS | cluster `service_backend`（type EDS） |
-| `xds/eds.yaml` | EDS | 2 つのエンドポイント |
-| `reload.sh` | n/a | ホットリロードを確実に発火させるヘルパー（注記参照） |
-| `variants/` | n/a | 実験用の代替リソースファイル |
+| ファイル         | xDS API | 中身                                                 |
+| ---------------- | ------- | ---------------------------------------------------- |
+| `bootstrap.yaml` | n/a     | LDS/CDS を `xds/` ディレクトリに向けるだけ           |
+| `xds/lds.yaml`   | LDS     | listener（ルーティングは RDS へ引き継ぐ）            |
+| `xds/rds.yaml`   | RDS     | route config `local_route`                           |
+| `xds/cds.yaml`   | CDS     | cluster `service_backend`（type EDS）                |
+| `xds/eds.yaml`   | EDS     | 2 つのエンドポイント                                 |
+| `reload.sh`      | n/a     | ホットリロードを確実に発火させるヘルパー（注記参照） |
+| `variants/`      | n/a     | 実験用の代替リソースファイル                         |
 
 ## トポロジ
 

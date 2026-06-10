@@ -55,12 +55,12 @@ Trace one request:
 
 ## Which xDS API programs which hop
 
-| Hop | Sidecar | xDS resources involved |
-| --- | --- | --- |
-| app-a → its sidecar (`:10000`) | app-a (outbound) | **LDS** outbound listener |
-| route + pick a backend | app-a (outbound) | **RDS** → **CDS** `app-b` → **EDS** pod IPs |
-| reach app-b's sidecar (`:15006`) | app-b (inbound) | **LDS** inbound listener |
-| forward to local app | app-b (inbound) | **RDS** → **CDS** `app-local` (STATIC `127.0.0.1:5678`) |
+| Hop                              | Sidecar          | xDS resources involved                                  |
+| -------------------------------- | ---------------- | ------------------------------------------------------- |
+| app-a → its sidecar (`:10000`)   | app-a (outbound) | **LDS** outbound listener                               |
+| route + pick a backend           | app-a (outbound) | **RDS** → **CDS** `app-b` → **EDS** pod IPs             |
+| reach app-b's sidecar (`:15006`) | app-b (inbound)  | **LDS** inbound listener                                |
+| forward to local app             | app-b (inbound)  | **RDS** → **CDS** `app-local` (STATIC `127.0.0.1:5678`) |
 
 Notice the division of labor:
 
@@ -98,13 +98,13 @@ This is the EDS payoff from chapter 06, now on real Kubernetes pods.
 
 What you built by hand is what Istio/Envoy meshes automate:
 
-| This lab | Production mesh (Istio) |
-| --- | --- |
-| manual sidecar container in the pod | automatic sidecar injection (or ambient) |
-| node id via `--service-node` flag | node id from pod metadata |
-| control plane resolves headless DNS | Pilot watches the Kubernetes API |
+| This lab                             | Production mesh (Istio)                    |
+| ------------------------------------ | ------------------------------------------ |
+| manual sidecar container in the pod  | automatic sidecar injection (or ambient)   |
+| node id via `--service-node` flag    | node id from pod metadata                  |
+| control plane resolves headless DNS  | Pilot watches the Kubernetes API           |
 | hardcoded outbound listener `:10000` | per-service listeners + `iptables` capture |
-| plaintext hop | mutual TLS via **SDS** between sidecars |
+| plaintext hop                        | mutual TLS via **SDS** between sidecars    |
 
 The protocol underneath (LDS, RDS, CDS, EDS over ADS, with version/nonce ACK/NACK) is **identical**. You now understand the engine of a service mesh.
 

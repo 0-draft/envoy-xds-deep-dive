@@ -6,14 +6,14 @@
 
 ## The family
 
-| API | Resource type | Discovers |
-| --- | --- | --- |
-| LDS | Listener | where Envoy listens |
-| RDS | RouteConfiguration | how requests are matched and routed |
-| CDS | Cluster | what upstream pools exist |
-| EDS | ClusterLoadAssignment | which endpoint IPs back a cluster |
-| SDS | Secret | TLS certs and keys |
-| ADS | (all of the above) | one ordered stream carrying every type |
+| API | Resource type         | Discovers                              |
+| --- | --------------------- | -------------------------------------- |
+| LDS | Listener              | where Envoy listens                    |
+| RDS | RouteConfiguration    | how requests are matched and routed    |
+| CDS | Cluster               | what upstream pools exist              |
+| EDS | ClusterLoadAssignment | which endpoint IPs back a cluster      |
+| SDS | Secret                | TLS certs and keys                     |
+| ADS | (all of the above)    | one ordered stream carrying every type |
 
 This repo focuses on LDS / RDS / CDS / EDS, and uses **ADS** to carry them.
 

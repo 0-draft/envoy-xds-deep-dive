@@ -55,12 +55,12 @@ flowchart LR
 
 ## どの xDS API がどのホップを構成するか
 
-| ホップ | サイドカー | 関与する xDS リソース |
-| --- | --- | --- |
-| app-a → 自サイドカー（`:10000`） | app-a (outbound) | **LDS** outbound listener |
-| ルート + バックエンド選択 | app-a (outbound) | **RDS** → **CDS** `app-b` → **EDS** ポッド IP |
-| app-b のサイドカーへ到達（`:15006`） | app-b (inbound) | **LDS** inbound listener |
-| ローカルアプリへ転送 | app-b (inbound) | **RDS** → **CDS** `app-local`（STATIC `127.0.0.1:5678`） |
+| ホップ                               | サイドカー       | 関与する xDS リソース                                    |
+| ------------------------------------ | ---------------- | -------------------------------------------------------- |
+| app-a → 自サイドカー（`:10000`）     | app-a (outbound) | **LDS** outbound listener                                |
+| ルート + バックエンド選択            | app-a (outbound) | **RDS** → **CDS** `app-b` → **EDS** ポッド IP            |
+| app-b のサイドカーへ到達（`:15006`） | app-b (inbound)  | **LDS** inbound listener                                 |
+| ローカルアプリへ転送                 | app-b (inbound)  | **RDS** → **CDS** `app-local`（STATIC `127.0.0.1:5678`） |
 
 役割分担に注目。
 
@@ -98,13 +98,13 @@ PUSH node=app-a-sidecar version=4 ...
 
 手作業で組んだものは、Istio/Envoy メッシュが自動化しているものだ。
 
-| このラボ | 本番メッシュ（Istio） |
-| --- | --- |
-| ポッド内に手動のサイドカーコンテナ | 自動サイドカーインジェクション（または ambient） |
-| `--service-node` フラグで node id | ポッドメタデータから node id |
-| コントロールプレーンが headless DNS を解決 | Pilot が Kubernetes API を監視 |
-| ハードコードされた outbound listener `:10000` | サービスごとの listener + `iptables` 捕捉 |
-| 平文ホップ | サイドカー間の **SDS** による相互 TLS |
+| このラボ                                      | 本番メッシュ（Istio）                            |
+| --------------------------------------------- | ------------------------------------------------ |
+| ポッド内に手動のサイドカーコンテナ            | 自動サイドカーインジェクション（または ambient） |
+| `--service-node` フラグで node id             | ポッドメタデータから node id                     |
+| コントロールプレーンが headless DNS を解決    | Pilot が Kubernetes API を監視                   |
+| ハードコードされた outbound listener `:10000` | サービスごとの listener + `iptables` 捕捉        |
+| 平文ホップ                                    | サイドカー間の **SDS** による相互 TLS            |
 
 その下のプロトコル (ADS 上の LDS, RDS, CDS, EDS、version/nonce による ACK/NACK) は **同一**だ。あなたはいまサービスメッシュのエンジンを理解している。
 

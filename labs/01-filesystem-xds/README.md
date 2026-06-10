@@ -8,15 +8,15 @@ Pairs with [docs 02 (overview)](../../docs/02-xds-overview/README.md), [03 (LDS)
 
 ## What is here
 
-| File | xDS API | Holds |
-| --- | --- | --- |
-| `bootstrap.yaml` | n/a | only points LDS/CDS at the `xds/` directory |
-| `xds/lds.yaml` | LDS | the listener (hands off routing to RDS) |
-| `xds/rds.yaml` | RDS | the route config `local_route` |
-| `xds/cds.yaml` | CDS | the cluster `service_backend` (type EDS) |
-| `xds/eds.yaml` | EDS | two endpoints |
-| `reload.sh` | n/a | helper to trigger a hot reload reliably (see note) |
-| `variants/` | n/a | alternate resource files for experiments |
+| File             | xDS API | Holds                                              |
+| ---------------- | ------- | -------------------------------------------------- |
+| `bootstrap.yaml` | n/a     | only points LDS/CDS at the `xds/` directory        |
+| `xds/lds.yaml`   | LDS     | the listener (hands off routing to RDS)            |
+| `xds/rds.yaml`   | RDS     | the route config `local_route`                     |
+| `xds/cds.yaml`   | CDS     | the cluster `service_backend` (type EDS)           |
+| `xds/eds.yaml`   | EDS     | two endpoints                                      |
+| `reload.sh`      | n/a     | helper to trigger a hot reload reliably (see note) |
+| `variants/`      | n/a     | alternate resource files for experiments           |
 
 ## The topology
 

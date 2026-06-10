@@ -8,10 +8,10 @@
 
 ## ここにあるもの
 
-| ファイル | 役割 |
-| --- | --- |
-| `envoy.yaml` | 設定の全部: 静的な listener, route, cluster, endpoint |
-| `docker-compose.yaml` | Envoy + 1 つの `http-echo` upstream |
+| ファイル              | 役割                                                  |
+| --------------------- | ----------------------------------------------------- |
+| `envoy.yaml`          | 設定の全部: 静的な listener, route, cluster, endpoint |
+| `docker-compose.yaml` | Envoy + 1 つの `http-echo` upstream                   |
 
 ## トポロジ
 

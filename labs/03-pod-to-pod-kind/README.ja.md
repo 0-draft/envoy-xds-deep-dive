@@ -8,14 +8,14 @@
 
 ## ここにあるもの
 
-| パス | 役割 |
-| --- | --- |
-| `kind-cluster.yaml` | 2 ノードの kind クラスタ |
-| `control-plane/` | メッシュ制御プレーン: ノードごとの設定を配り、app-b ポッドを解決 |
-| `manifests/00-configmap-bootstrap.yaml` | 共有サイドカー bootstrap |
-| `manifests/10-control-plane.yaml` | 制御プレーン Deployment + Service `xds` |
-| `manifests/20-app-b.yaml` | app-b（http-echo）+ inbound サイドカー、headless Service |
-| `manifests/30-app-a.yaml` | app-a（curl）+ outbound サイドカー |
+| パス                                    | 役割                                                             |
+| --------------------------------------- | ---------------------------------------------------------------- |
+| `kind-cluster.yaml`                     | 2 ノードの kind クラスタ                                         |
+| `control-plane/`                        | メッシュ制御プレーン: ノードごとの設定を配り、app-b ポッドを解決 |
+| `manifests/00-configmap-bootstrap.yaml` | 共有サイドカー bootstrap                                         |
+| `manifests/10-control-plane.yaml`       | 制御プレーン Deployment + Service `xds`                          |
+| `manifests/20-app-b.yaml`               | app-b（http-echo）+ inbound サイドカー、headless Service         |
+| `manifests/30-app-a.yaml`               | app-a（curl）+ outbound サイドカー                               |
 
 ## トポロジ
 

@@ -59,28 +59,28 @@ A request enters a **Listener**, is matched by a **Route** to a **Cluster**, and
 
 Read the chapters in order. Each ends with a "Try it" link to the lab that makes it concrete.
 
-| # | Chapter | You will learn | Lab |
-| --- | --- | --- | --- |
-| 00 | [Prerequisites](docs/00-prerequisites/README.md) | proxy, L4/L7, data vs control plane, the request lifecycle | n/a |
-| 01 | [Envoy config model](docs/01-envoy-config-model/README.md) | listener / route / cluster / endpoint as static YAML | [Lab 00](labs/00-static-bootstrap/README.md) |
-| 02 | [xDS overview](docs/02-xds-overview/README.md) | discovery services, ACK/NACK, ADS, ordering | [Lab 01](labs/01-filesystem-xds/README.md) |
-| 03 | [LDS](docs/03-lds/README.md) | Listener Discovery Service | [Lab 01](labs/01-filesystem-xds/README.md) |
-| 04 | [RDS](docs/04-rds/README.md) | Route Discovery Service | [Lab 01](labs/01-filesystem-xds/README.md) |
-| 05 | [CDS](docs/05-cds/README.md) | Cluster Discovery Service | [Lab 02](labs/02-grpc-control-plane/README.md) |
-| 06 | [EDS](docs/06-eds/README.md) | Endpoint Discovery Service | [Lab 02](labs/02-grpc-control-plane/README.md) |
-| 07 | [Pod-to-pod](docs/07-pod-to-pod/README.md) | sidecars, inbound/outbound, a mini mesh | [Lab 03](labs/03-pod-to-pod-kind/README.md) |
-| 99 | [Glossary & references](docs/99-glossary/README.md) | terms and links | n/a |
+| #   | Chapter                                                    | You will learn                                             | Lab                                            |
+| --- | ---------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------- |
+| 00  | [Prerequisites](docs/00-prerequisites/README.md)           | proxy, L4/L7, data vs control plane, the request lifecycle | n/a                                            |
+| 01  | [Envoy config model](docs/01-envoy-config-model/README.md) | listener / route / cluster / endpoint as static YAML       | [Lab 00](labs/00-static-bootstrap/README.md)   |
+| 02  | [xDS overview](docs/02-xds-overview/README.md)             | discovery services, ACK/NACK, ADS, ordering                | [Lab 01](labs/01-filesystem-xds/README.md)     |
+| 03  | [LDS](docs/03-lds/README.md)                               | Listener Discovery Service                                 | [Lab 01](labs/01-filesystem-xds/README.md)     |
+| 04  | [RDS](docs/04-rds/README.md)                               | Route Discovery Service                                    | [Lab 01](labs/01-filesystem-xds/README.md)     |
+| 05  | [CDS](docs/05-cds/README.md)                               | Cluster Discovery Service                                  | [Lab 02](labs/02-grpc-control-plane/README.md) |
+| 06  | [EDS](docs/06-eds/README.md)                               | Endpoint Discovery Service                                 | [Lab 02](labs/02-grpc-control-plane/README.md) |
+| 07  | [Pod-to-pod](docs/07-pod-to-pod/README.md)                 | sidecars, inbound/outbound, a mini mesh                    | [Lab 03](labs/03-pod-to-pod-kind/README.md)    |
+| 99  | [Glossary & references](docs/99-glossary/README.md)        | terms and links                                            | n/a                                            |
 
 ## The labs, in increasing realism
 
 The control plane gets more real with each lab. The Envoy data plane barely changes: that is the point.
 
-| Lab | Control plane | Transport | Runs on |
-| --- | --- | --- | --- |
-| [00](labs/00-static-bootstrap/README.md) | none (static file) | n/a | Docker Compose |
-| [01](labs/01-filesystem-xds/README.md) | your text editor | filesystem | Docker Compose |
-| [02](labs/02-grpc-control-plane/README.md) | `go-control-plane` | gRPC ADS | Docker Compose |
-| [03](labs/03-pod-to-pod-kind/README.md) | mesh control plane | gRPC ADS | `kind` (Kubernetes) |
+| Lab                                        | Control plane      | Transport  | Runs on             |
+| ------------------------------------------ | ------------------ | ---------- | ------------------- |
+| [00](labs/00-static-bootstrap/README.md)   | none (static file) | n/a        | Docker Compose      |
+| [01](labs/01-filesystem-xds/README.md)     | your text editor   | filesystem | Docker Compose      |
+| [02](labs/02-grpc-control-plane/README.md) | `go-control-plane` | gRPC ADS   | Docker Compose      |
+| [03](labs/03-pod-to-pod-kind/README.md)    | mesh control plane | gRPC ADS   | `kind` (Kubernetes) |
 
 ## Repository layout
 

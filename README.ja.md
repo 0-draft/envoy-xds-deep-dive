@@ -59,28 +59,28 @@ flowchart LR
 
 章は順番に読む。各章の最後に、内容を具体化する「やってみる」ラボへのリンクがある。
 
-| # | 章 | 学ぶこと | ラボ |
-| --- | --- | --- | --- |
-| 00 | [前提知識](docs/00-prerequisites/README.ja.md) | プロキシ、L4/L7、データ/コントロールプレーン、リクエストの一生 | n/a |
-| 01 | [Envoy 設定モデル](docs/01-envoy-config-model/README.ja.md) | listener / route / cluster / endpoint を静的 YAML で | [Lab 00](labs/00-static-bootstrap/README.ja.md) |
-| 02 | [xDS 概観](docs/02-xds-overview/README.ja.md) | ディスカバリサービス、ACK/NACK、ADS、順序 | [Lab 01](labs/01-filesystem-xds/README.ja.md) |
-| 03 | [LDS](docs/03-lds/README.ja.md) | Listener Discovery Service | [Lab 01](labs/01-filesystem-xds/README.ja.md) |
-| 04 | [RDS](docs/04-rds/README.ja.md) | Route Discovery Service | [Lab 01](labs/01-filesystem-xds/README.ja.md) |
-| 05 | [CDS](docs/05-cds/README.ja.md) | Cluster Discovery Service | [Lab 02](labs/02-grpc-control-plane/README.ja.md) |
-| 06 | [EDS](docs/06-eds/README.ja.md) | Endpoint Discovery Service | [Lab 02](labs/02-grpc-control-plane/README.ja.md) |
-| 07 | [Pod-to-pod](docs/07-pod-to-pod/README.ja.md) | サイドカー、inbound/outbound、ミニメッシュ | [Lab 03](labs/03-pod-to-pod-kind/README.ja.md) |
-| 99 | [用語集・参考文献](docs/99-glossary/README.ja.md) | 用語とリンク | n/a |
+| #   | 章                                                          | 学ぶこと                                                       | ラボ                                              |
+| --- | ----------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------- |
+| 00  | [前提知識](docs/00-prerequisites/README.ja.md)              | プロキシ、L4/L7、データ/コントロールプレーン、リクエストの一生 | n/a                                               |
+| 01  | [Envoy 設定モデル](docs/01-envoy-config-model/README.ja.md) | listener / route / cluster / endpoint を静的 YAML で           | [Lab 00](labs/00-static-bootstrap/README.ja.md)   |
+| 02  | [xDS 概観](docs/02-xds-overview/README.ja.md)               | ディスカバリサービス、ACK/NACK、ADS、順序                      | [Lab 01](labs/01-filesystem-xds/README.ja.md)     |
+| 03  | [LDS](docs/03-lds/README.ja.md)                             | Listener Discovery Service                                     | [Lab 01](labs/01-filesystem-xds/README.ja.md)     |
+| 04  | [RDS](docs/04-rds/README.ja.md)                             | Route Discovery Service                                        | [Lab 01](labs/01-filesystem-xds/README.ja.md)     |
+| 05  | [CDS](docs/05-cds/README.ja.md)                             | Cluster Discovery Service                                      | [Lab 02](labs/02-grpc-control-plane/README.ja.md) |
+| 06  | [EDS](docs/06-eds/README.ja.md)                             | Endpoint Discovery Service                                     | [Lab 02](labs/02-grpc-control-plane/README.ja.md) |
+| 07  | [Pod-to-pod](docs/07-pod-to-pod/README.ja.md)               | サイドカー、inbound/outbound、ミニメッシュ                     | [Lab 03](labs/03-pod-to-pod-kind/README.ja.md)    |
+| 99  | [用語集・参考文献](docs/99-glossary/README.ja.md)           | 用語とリンク                                                   | n/a                                               |
 
 ## ラボ: だんだんリアルになる
 
 ラボごとにコントロールプレーンが本物に近づく。Envoy データプレーン側はほとんど変わらない。そこがポイント。
 
-| ラボ | コントロールプレーン | トランスポート | 実行基盤 |
-| --- | --- | --- | --- |
-| [00](labs/00-static-bootstrap/README.ja.md) | なし（静的ファイル） | n/a | Docker Compose |
-| [01](labs/01-filesystem-xds/README.ja.md) | テキストエディタ | ファイルシステム | Docker Compose |
-| [02](labs/02-grpc-control-plane/README.ja.md) | `go-control-plane` | gRPC ADS | Docker Compose |
-| [03](labs/03-pod-to-pod-kind/README.ja.md) | メッシュ制御プレーン | gRPC ADS | `kind`（Kubernetes） |
+| ラボ                                          | コントロールプレーン | トランスポート   | 実行基盤             |
+| --------------------------------------------- | -------------------- | ---------------- | -------------------- |
+| [00](labs/00-static-bootstrap/README.ja.md)   | なし（静的ファイル） | n/a              | Docker Compose       |
+| [01](labs/01-filesystem-xds/README.ja.md)     | テキストエディタ     | ファイルシステム | Docker Compose       |
+| [02](labs/02-grpc-control-plane/README.ja.md) | `go-control-plane`   | gRPC ADS         | Docker Compose       |
+| [03](labs/03-pod-to-pod-kind/README.ja.md)    | メッシュ制御プレーン | gRPC ADS         | `kind`（Kubernetes） |
 
 ## リポジトリ構成
 

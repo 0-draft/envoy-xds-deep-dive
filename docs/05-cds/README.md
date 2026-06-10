@@ -26,11 +26,11 @@ flowchart LR
 
 The cluster's `type` field decides where endpoints come from:
 
-| type | Endpoints come from | Used in |
-| --- | --- | --- |
-| `STATIC` | inline `load_assignment` (literal IPs) | Lab 00, Lab 03 (loopback) |
-| `STRICT_DNS` / `LOGICAL_DNS` | DNS resolution of a hostname | Lab 00 upstream |
-| `EDS` | the EDS API | Labs 01, 02, 03 |
+| type                         | Endpoints come from                    | Used in                   |
+| ---------------------------- | -------------------------------------- | ------------------------- |
+| `STATIC`                     | inline `load_assignment` (literal IPs) | Lab 00, Lab 03 (loopback) |
+| `STRICT_DNS` / `LOGICAL_DNS` | DNS resolution of a hostname           | Lab 00 upstream           |
+| `EDS`                        | the EDS API                            | Labs 01, 02, 03           |
 
 The EDS form is the interesting one. The cluster says "do not look for endpoints in me; ask EDS for a load assignment named X":
 

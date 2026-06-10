@@ -4,12 +4,12 @@
 
 Four hands-on labs that climb from a fully static Envoy to a two-pod mesh on Kubernetes. The Envoy data plane barely changes between them: what changes is **how its config is delivered**. That is the whole lesson of xDS.
 
-| Lab | Control plane | Transport | Runs on | Pairs with |
-| --- | --- | --- | --- | --- |
-| [00 static bootstrap](00-static-bootstrap/README.md) | none | static file | Docker Compose | [docs 01](../docs/01-envoy-config-model/README.md) |
-| [01 filesystem xDS](01-filesystem-xds/README.md) | your editor | filesystem | Docker Compose | [docs 02-04](../docs/02-xds-overview/README.md) |
-| [02 gRPC control plane](02-grpc-control-plane/README.md) | `go-control-plane` | gRPC ADS | Docker Compose | [docs 05-06](../docs/05-cds/README.md) |
-| [03 pod-to-pod on kind](03-pod-to-pod-kind/README.md) | mesh control plane | gRPC ADS | `kind` | [docs 07](../docs/07-pod-to-pod/README.md) |
+| Lab                                                      | Control plane      | Transport   | Runs on        | Pairs with                                         |
+| -------------------------------------------------------- | ------------------ | ----------- | -------------- | -------------------------------------------------- |
+| [00 static bootstrap](00-static-bootstrap/README.md)     | none               | static file | Docker Compose | [docs 01](../docs/01-envoy-config-model/README.md) |
+| [01 filesystem xDS](01-filesystem-xds/README.md)         | your editor        | filesystem  | Docker Compose | [docs 02-04](../docs/02-xds-overview/README.md)    |
+| [02 gRPC control plane](02-grpc-control-plane/README.md) | `go-control-plane` | gRPC ADS    | Docker Compose | [docs 05-06](../docs/05-cds/README.md)             |
+| [03 pod-to-pod on kind](03-pod-to-pod-kind/README.md)    | mesh control plane | gRPC ADS    | `kind`         | [docs 07](../docs/07-pod-to-pod/README.md)         |
 
 ## Prerequisites
 

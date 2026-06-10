@@ -87,12 +87,12 @@ Even though Lab 00 is fully static, Envoy *still* organizes its internal state b
 
 If one YAML file works, why does xDS break it into four streams? Because in a real system the four nouns change at very different rates and are owned by different parties:
 
-| Noun | Changes when… | Typical rate |
-| --- | --- | --- |
-| Listener | you add a port or TLS context | rarely |
-| Route | you change traffic splitting / paths | sometimes |
-| Cluster | you add or remove a service | sometimes |
-| Endpoint | a pod scales, restarts, or fails health checks | constantly |
+| Noun     | Changes when…                                  | Typical rate |
+| -------- | ---------------------------------------------- | ------------ |
+| Listener | you add a port or TLS context                  | rarely       |
+| Route    | you change traffic splitting / paths           | sometimes    |
+| Cluster  | you add or remove a service                    | sometimes    |
+| Endpoint | a pod scales, restarts, or fails health checks | constantly   |
 
 Pushing a whole new monolithic config every time a single pod restarts would be wasteful and risky. Splitting lets the busiest data (endpoints) flow on its own without disturbing the rest.
 
