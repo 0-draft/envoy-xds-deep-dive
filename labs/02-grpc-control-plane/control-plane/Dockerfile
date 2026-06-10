@@ -1,0 +1,12 @@
+# Build the control plane and ship a tiny static binary.
+FROM golang:1.26 AS build
+WORKDIR /src
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 go build -o /control-plane .
+
+FROM gcr.io/distroless/static-debian12
+COPY --from=build /control-plane /control-plane
+EXPOSE 18000 19000
+ENTRYPOINT ["/control-plane"]

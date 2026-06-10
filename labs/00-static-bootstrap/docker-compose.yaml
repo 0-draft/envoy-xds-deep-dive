@@ -1,0 +1,19 @@
+# Lab 00 — one Envoy in front of one upstream.
+#
+#   client (your curl)  ->  envoy :10000  ->  upstream :5678
+#                            envoy admin   :9901
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.38-latest
+    command: ["-c", "/etc/envoy/envoy.yaml", "-l", "info"]
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml:ro
+    ports:
+      - "10000:10000"   # data plane
+      - "9901:9901"     # admin / config_dump
+    depends_on:
+      - upstream
+
+  upstream:
+    image: hashicorp/http-echo:latest
+    command: ["-text=hello from upstream (static endpoint)", "-listen=:5678"]

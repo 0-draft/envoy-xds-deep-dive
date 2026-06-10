@@ -1,0 +1,16 @@
+# Local Claude/editor state
+.claude/
+.idea/
+.vscode/
+.DS_Store
+
+# Go build artifacts (control planes): a bare `go build` drops a binary named
+# after the package dir (control-plane) next to the sources — never commit it.
+labs/*/control-plane/control-plane
+**/bin/
+*.test
+*.out
+
+# Envoy runtime
+*.log
+envoy-*.json

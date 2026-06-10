@@ -1,0 +1,13 @@
+# Variant of eds.yaml with a single endpoint (upstream1 only).
+# Use it to watch EDS shrink the cluster live:
+#   ./reload.sh eds.yaml variants/eds-one-endpoint.yaml
+resources:
+  - "@type": type.googleapis.com/envoy.config.endpoint.v3.ClusterLoadAssignment
+    cluster_name: service_backend
+    endpoints:
+      - lb_endpoints:
+          - endpoint:
+              address:
+                socket_address:
+                  address: 10.77.0.11
+                  port_value: 5678

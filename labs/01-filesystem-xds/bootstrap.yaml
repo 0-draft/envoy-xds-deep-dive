@@ -1,0 +1,38 @@
+# Lab 01 — dynamic Envoy, filesystem flavour.
+#
+# The bootstrap no longer contains listeners or clusters. Instead it tells
+# Envoy WHERE to discover them: from files on disk (a `path_config_source`).
+# This is the simplest possible xDS "control plane" — your text editor.
+#
+#   lds_config  -> /etc/envoy/xds/lds.yaml   (Listeners)         -> LDS
+#   cds_config  -> /etc/envoy/xds/cds.yaml   (Clusters)          -> CDS
+#   (the Listener then points at)  rds.yaml   (RouteConfig)       -> RDS
+#   (the Cluster then points at)   eds.yaml   (ClusterLoadAssignment) -> EDS
+
+node:
+  id: lab01-node
+  cluster: lab01-cluster
+
+admin:
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 9901
+
+dynamic_resources:
+  # LDS: discover Listeners from a file. `watched_directory` makes Envoy
+  # reload when anything in that directory is moved/replaced (hot reload).
+  lds_config:
+    resource_api_version: V3
+    path_config_source:
+      path: /etc/envoy/xds/lds.yaml
+      watched_directory:
+        path: /etc/envoy/xds
+
+  # CDS: discover Clusters from a file.
+  cds_config:
+    resource_api_version: V3
+    path_config_source:
+      path: /etc/envoy/xds/cds.yaml
+      watched_directory:
+        path: /etc/envoy/xds

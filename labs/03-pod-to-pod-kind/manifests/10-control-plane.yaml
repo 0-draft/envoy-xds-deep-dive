@@ -1,0 +1,45 @@
+# The mesh control plane: serves ADS to both sidecars and resolves the app-b
+# headless Service to keep app-a's EDS up to date.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xds
+  namespace: default
+  labels:
+    app: xds
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xds
+  template:
+    metadata:
+      labels:
+        app: xds
+    spec:
+      containers:
+        - name: control-plane
+          image: envoy-xds-mesh-cp:dev
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: APP_B_DNS
+              value: app-b.default.svc.cluster.local
+            - name: INBOUND_PORT
+              value: "15006"
+            - name: OUTBOUND_PORT
+              value: "10000"
+            - name: APP_PORT
+              value: "5678"
+          ports:
+            - { name: ads, containerPort: 18000 }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xds
+  namespace: default
+spec:
+  selector:
+    app: xds
+  ports:
+    - { name: ads, port: 18000, targetPort: 18000 }

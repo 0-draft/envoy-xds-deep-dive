@@ -1,0 +1,23 @@
+# EDS resource file — a ClusterLoadAssignment named "service_backend".
+#
+# These are the concrete endpoint IPs behind the cluster. In a real mesh this
+# is the list that changes most often (pods scale up/down), which is exactly
+# why EDS is split from CDS: endpoints churn without touching cluster config.
+#
+# EDS endpoints are IPs, not DNS names (the cluster type is EDS, not STRICT_DNS).
+# We pin the upstreams to fixed IPs in docker-compose so these match.
+resources:
+  - "@type": type.googleapis.com/envoy.config.endpoint.v3.ClusterLoadAssignment
+    cluster_name: service_backend
+    endpoints:
+      - lb_endpoints:
+          - endpoint:
+              address:
+                socket_address:
+                  address: 10.77.0.11   # upstream1
+                  port_value: 5678
+          - endpoint:
+              address:
+                socket_address:
+                  address: 10.77.0.12   # upstream2
+                  port_value: 5678

@@ -1,0 +1,44 @@
+# app-a: the caller. The app container is just a shell with curl; you exec into
+# it and curl localhost:10000, which is its OWN Envoy sidecar's outbound listener.
+# The sidecar load-balances across app-b's pods (discovered via EDS).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-a
+  namespace: default
+  labels:
+    app: app-a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-a
+  template:
+    metadata:
+      labels:
+        app: app-a
+    spec:
+      containers:
+        # The "app": a long-running container we exec curl from.
+        - name: app
+          image: curlimages/curl:latest
+          command: ["sleep", "infinity"]
+        # The outbound sidecar: localhost:10000 -> app-b pods.
+        - name: envoy
+          image: envoyproxy/envoy:v1.38-latest
+          command: ["/usr/local/bin/envoy"]
+          args:
+            - "-c"
+            - "/etc/envoy/bootstrap.yaml"
+            - "--service-node"
+            - "app-a-sidecar"
+            - "--service-cluster"
+            - "mesh"
+            - "-l"
+            - "info"
+          volumeMounts:
+            - { name: bootstrap, mountPath: /etc/envoy }
+      volumes:
+        - name: bootstrap
+          configMap:
+            name: envoy-bootstrap

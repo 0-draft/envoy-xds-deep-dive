@@ -1,0 +1,66 @@
+# app-b: the callee. Each pod runs the real app (http-echo) plus an Envoy
+# sidecar that receives inbound traffic on :15006 and forwards to 127.0.0.1:5678.
+#
+# 2 replicas so app-a's EDS shows two endpoints; scale this to watch EDS update.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-b
+  namespace: default
+  labels:
+    app: app-b
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-b
+  template:
+    metadata:
+      labels:
+        app: app-b
+    spec:
+      containers:
+        # The real workload.
+        - name: app
+          image: hashicorp/http-echo:latest
+          args: ["-text=hello from app-b ($(POD_NAME))", "-listen=:5678"]
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+        # The inbound sidecar.
+        - name: envoy
+          image: envoyproxy/envoy:v1.38-latest
+          command: ["/usr/local/bin/envoy"]
+          args:
+            - "-c"
+            - "/etc/envoy/bootstrap.yaml"
+            - "--service-node"
+            - "app-b-sidecar"
+            - "--service-cluster"
+            - "mesh"
+            - "-l"
+            - "info"
+          ports:
+            - { name: inbound, containerPort: 15006 }
+          volumeMounts:
+            - { name: bootstrap, mountPath: /etc/envoy }
+      volumes:
+        - name: bootstrap
+          configMap:
+            name: envoy-bootstrap
+---
+# Headless Service: its DNS A record returns the app-b POD IPs, which the
+# control plane resolves to build app-a's EDS endpoint list.
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-b
+  namespace: default
+spec:
+  clusterIP: None
+  selector:
+    app: app-b
+  ports:
+    - { name: inbound, port: 15006, targetPort: 15006 }

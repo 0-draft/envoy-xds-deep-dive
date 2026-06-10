@@ -1,0 +1,52 @@
+# Shared sidecar bootstrap. Every Envoy sidecar mounts this same file and is
+# told *who it is* via the --service-node flag (see the Deployments). The node
+# id selects which per-sidecar snapshot the control plane serves.
+#
+# The only static config is how to reach the control plane (xds_cluster).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: envoy-bootstrap
+  namespace: default
+data:
+  bootstrap.yaml: |
+    admin:
+      address:
+        socket_address:
+          address: 127.0.0.1
+          port_value: 9901
+
+    dynamic_resources:
+      ads_config:
+        api_type: GRPC
+        transport_api_version: V3
+        grpc_services:
+          - envoy_grpc:
+              cluster_name: xds_cluster
+      lds_config:
+        resource_api_version: V3
+        ads: {}
+      cds_config:
+        resource_api_version: V3
+        ads: {}
+
+    static_resources:
+      clusters:
+        - name: xds_cluster
+          type: STRICT_DNS
+          connect_timeout: 1s
+          lb_policy: ROUND_ROBIN
+          typed_extension_protocol_options:
+            envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+              "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+              explicit_http_config:
+                http2_protocol_options: {}
+          load_assignment:
+            cluster_name: xds_cluster
+            endpoints:
+              - lb_endpoints:
+                  - endpoint:
+                      address:
+                        socket_address:
+                          address: xds.default.svc.cluster.local
+                          port_value: 18000

@@ -1,0 +1,39 @@
+# Lab 01 — Envoy discovers everything from files; two upstreams behind EDS.
+#
+#   curl :10000  ->  envoy  ->  EDS endpoints { 10.77.0.11, 10.77.0.12 }
+#
+# Upstreams are pinned to fixed IPs so eds.yaml can name them explicitly,
+# the same way a control plane names concrete pod IPs.
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.38-latest
+    command: ["-c", "/etc/envoy/bootstrap.yaml", "-l", "info"]
+    volumes:
+      - ./bootstrap.yaml:/etc/envoy/bootstrap.yaml:ro
+      - ./xds:/etc/envoy/xds          # the whole xDS directory is mounted
+    ports:
+      - "10000:10000"
+      - "9901:9901"
+    networks:
+      lab:
+        ipv4_address: 10.77.0.2
+
+  upstream1:
+    image: hashicorp/http-echo:latest
+    command: ["-text=hello from upstream1", "-listen=:5678"]
+    networks:
+      lab:
+        ipv4_address: 10.77.0.11
+
+  upstream2:
+    image: hashicorp/http-echo:latest
+    command: ["-text=hello from upstream2", "-listen=:5678"]
+    networks:
+      lab:
+        ipv4_address: 10.77.0.12
+
+networks:
+  lab:
+    ipam:
+      config:
+        - subnet: 10.77.0.0/24

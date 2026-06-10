@@ -1,0 +1,19 @@
+# CDS resource file — a list of Cluster resources.
+#
+# type: EDS means "do not put endpoints here; discover them via EDS".
+# eds_cluster_config points at eds.yaml, which holds the actual endpoints.
+# That is the CDS -> EDS hand-off.
+resources:
+  - "@type": type.googleapis.com/envoy.config.cluster.v3.Cluster
+    name: service_backend
+    type: EDS
+    connect_timeout: 1s
+    lb_policy: ROUND_ROBIN
+    eds_cluster_config:
+      service_name: service_backend
+      eds_config:
+        resource_api_version: V3
+        path_config_source:
+          path: /etc/envoy/xds/eds.yaml
+          watched_directory:
+            path: /etc/envoy/xds
