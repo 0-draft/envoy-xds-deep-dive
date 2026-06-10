@@ -2,7 +2,9 @@
 
 # 05. CDS (Cluster Discovery Service)
 
-CDS discovers **Clusters**: named pools of upstream hosts that Envoy can route to. A cluster defines *what* a backend is and *how* to talk to it (load balancing policy, timeouts, health checks, TLS, circuit breakers): but, crucially, it can defer *which* hosts back it to EDS.
+CDS discovers **Clusters**. A **Cluster** logically groups **interchangeable** upstream endpoints (instances of the *same* service, any of which can serve a request equally well) under a single name. That interchangeability is the whole point: it is exactly what lets Envoy load-balance across them. If `api`'s pods were not fungible, picking one at random would break. A cluster also defines *how* to talk to that group (load balancing policy, timeouts, health checks, TLS, circuit breakers), but it defers *which* concrete hosts fill it to EDS.
+
+> **A note on granularity.** "Same purpose" means *interchangeable*. When you need to distinguish within a service (only v1, only one zone), you either split into separate clusters (`api-v1`, `api-v2`, as in the cardinality diagram below) or use **subset load balancing** (subgroup one cluster by endpoint metadata and select it from the route). Both are just choices of *how finely to bundle interchangeable endpoints*.
 
 ```mermaid
 flowchart LR
