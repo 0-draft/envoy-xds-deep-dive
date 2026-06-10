@@ -54,6 +54,34 @@ HCM はルートを次の 2 通りで得る。
                 typed_config: { "@type": type.googleapis.com/...Router }
 ```
 
+## HTTP フィルタチェーン（認証・レート制限などが入る場所）
+
+例では HTTP フィルタを `router` 1 つだけ出してきた（route 検索をして実際にアップストリーム
+へ転送する張本人）。だが `http_filters` は**順序付きリスト**で、ルーティングが起きる*前*に、
+すべてのリクエストが上から順に通過する。横断的な関心事はここに入る。
+
+```yaml
+http_filters:
+  - name: envoy.filters.http.cors          # CORS 処理
+  - name: envoy.filters.http.jwt_authn     # JWT 検証
+  - name: envoy.filters.http.ext_authz     # 外部認可サーバを呼ぶ
+  - name: envoy.filters.http.ratelimit     # レート制限
+  - name: envoy.filters.http.router        # 必ず最後: 終端フィルタ
+```
+
+覚えるべき 2 点:
+
+- **`router` は終端で、必ず最後。** その前のフィルタはリクエストを検査・改変・遅延・拒否
+  できる（例: `ext_authz` が 403 を返せば、cluster に届く前にリクエストは止まる）。router
+  はアップストリームへ送ってチェーンを終える。
+- **フィルタチェーンは listener（LDS）が持ち、route（RDS）ではない。** だから「この listener
+  で認証を有効化」は LDS の変更、「`/admin` を別バックエンドへ」は RDS の変更。route 側で
+  フィルタを微調整するなら `typed_per_filter_config` が使えるが、フィルタの*集合*自体は
+  listener の関心事。
+
+これが「認証・認可・レート制限はどこで起きるのか」の答え。route でも cluster でもなく、
+listener が持つ HTTP フィルタチェーンだ。
+
 ## 依存ルール
 
 listener は route config（ひいては cluster）を参照する。「make before break」では:

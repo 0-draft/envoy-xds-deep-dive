@@ -110,4 +110,4 @@ PUSH node=app-a-sidecar version=4 ...
 
 ## やってみる
 
-[Lab 03 kind での pod-to-pod](../../labs/03-pod-to-pod-kind/README.ja.md) を最後まで実行する。クラスタを作り、両アプリとコントロールプレーンをデプロイし、`app-a` から両サイドカー越しに `app-b` へリクエストを送り、`app-b` をスケールして EDS が追従するのを見る。最後に [用語集と参考文献](../99-glossary/README.ja.md) で締める。
+[Lab 03 kind での pod-to-pod](../../labs/03-pod-to-pod-kind/README.ja.md) を最後まで実行する。クラスタを作り、両アプリとコントロールプレーンをデプロイし、`app-a` から両サイドカー越しに `app-b` へリクエストを送り、`app-b` をスケールして EDS が追従するのを見る。次に、セキュリティ層を足す: [08 セキュリティ: SDS と mTLS](../08-security-sds/README.ja.md)。

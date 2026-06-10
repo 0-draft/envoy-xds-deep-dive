@@ -71,6 +71,7 @@ flowchart LR
 | 05  | [CDS](docs/05-cds/README.ja.md)                             | Cluster Discovery Service                                      | [Lab 02](labs/02-grpc-control-plane/README.ja.md) |
 | 06  | [EDS](docs/06-eds/README.ja.md)                             | Endpoint Discovery Service                                     | [Lab 02](labs/02-grpc-control-plane/README.ja.md) |
 | 07  | [Pod-to-pod](docs/07-pod-to-pod/README.ja.md)               | サイドカー、inbound/outbound、ミニメッシュ                     | [Lab 03](labs/03-pod-to-pod-kind/README.ja.md)    |
+| 08  | [セキュリティ: SDS と mTLS](docs/08-security-sds/README.ja.md) | サイドカー間の相互 TLS、証明書ローテーション                  | n/a    |
 | 99  | [用語集・参考文献](docs/99-glossary/README.ja.md)           | 用語とリンク                                                   | n/a                                               |
 
 ## ラボ: だんだんリアルになる

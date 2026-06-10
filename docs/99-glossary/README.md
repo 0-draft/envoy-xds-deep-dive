@@ -53,6 +53,15 @@ flowchart LR
 
 Read it as: a listener names a route config, a route names a cluster, a cluster names an endpoint set. ADS sends them in that dependency order (CDS/EDS before LDS/RDS) so references never dangle.
 
+## Scope: this repo is L7 (HTTP)
+
+Everything here routes HTTP, so RDS (an L7 concept) is always in play. Envoy also
+proxies raw **L4 (TCP/UDP)**: the listener uses a `tcp_proxy` network filter
+instead of the HTTP connection manager, and it points straight at a cluster. In
+that mode there is **no RDS** (no paths or hosts to match on), but **LDS, CDS,
+and EDS still apply** exactly as described, and ADS still carries them. So the
+mental model transfers; only the L7 routing layer drops out.
+
 ## References
 
 - Envoy: xDS protocol: <https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol>

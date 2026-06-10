@@ -110,4 +110,4 @@ The protocol underneath (LDS, RDS, CDS, EDS over ADS, with version/nonce ACK/NAC
 
 ## Try it
 
-Run [Lab 03 pod-to-pod on kind](../../labs/03-pod-to-pod-kind/README.md) end-to-end: create the cluster, deploy both apps and the control plane, send a request from `app-a` through both sidecars to `app-b`, then scale `app-b` and watch EDS track it. Wrap up with the [glossary and references](../99-glossary/README.md).
+Run [Lab 03 pod-to-pod on kind](../../labs/03-pod-to-pod-kind/README.md) end-to-end: create the cluster, deploy both apps and the control plane, send a request from `app-a` through both sidecars to `app-b`, then scale `app-b` and watch EDS track it. Next, add the security layer: [08 Security: SDS and mTLS](../08-security-sds/README.md).

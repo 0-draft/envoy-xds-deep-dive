@@ -71,6 +71,7 @@ Read the chapters in order. Each ends with a "Try it" link to the lab that makes
 | 05  | [CDS](docs/05-cds/README.md)                               | Cluster Discovery Service                                  | [Lab 02](labs/02-grpc-control-plane/README.md) |
 | 06  | [EDS](docs/06-eds/README.md)                               | Endpoint Discovery Service                                 | [Lab 02](labs/02-grpc-control-plane/README.md) |
 | 07  | [Pod-to-pod](docs/07-pod-to-pod/README.md)                 | sidecars, inbound/outbound, a mini mesh                    | [Lab 03](labs/03-pod-to-pod-kind/README.md)    |
+| 08  | [Security: SDS & mTLS](docs/08-security-sds/README.md)     | mutual TLS between sidecars, cert rotation                 | n/a                                            |
 | 99  | [Glossary & references](docs/99-glossary/README.md)        | terms and links                                            | n/a                                            |
 
 ## The labs, in increasing realism

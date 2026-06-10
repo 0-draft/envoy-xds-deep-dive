@@ -53,6 +53,14 @@ flowchart LR
 
 読み方: listener は route config を名前で、route は cluster を名前で、cluster はエンドポイント集合を名前で指す。ADS はこの依存順（LDS/RDS より先に CDS/EDS）で送るので、参照が宙に浮かない。
 
+## スコープ: このリポジトリは L7（HTTP）
+
+ここでは全部 HTTP をルーティングするので、RDS（L7 の概念）が常に関わる。Envoy は生の
+**L4（TCP/UDP）**も代理できる。その場合 listener は HTTP connection manager の代わりに
+`tcp_proxy` ネットワークフィルタを使い、cluster を直接指す。このモードでは **RDS は無い**
+（一致させる path や host が無い）が、**LDS・CDS・EDS はそのまま効く**し、ADS も同じように
+運ぶ。だからメンタルモデルは転用できる。抜けるのは L7 ルーティング層だけだ。
+
 ## 参考文献
 
 - Envoy。xDS プロトコル: <https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol>

@@ -46,6 +46,43 @@ flowchart LR
           route: { cluster: service_backend }   # <- CDS の cluster を名前で指す
 ```
 
+## リクエストがどう route を見つけるか（一致の順序）
+
+route の選択は**2 段階**の一致で、順序が効く。
+
+1. **`:authority`（Host ヘッダ）で virtual host を選ぶ。** Envoy は Host を各 vhost
+   の `domains` と照合し、最も具体的なものを選ぶ。優先順位は: 完全一致
+   （`api.example.com`）> 後方ワイルドカード（`*.example.com`）> 前方ワイルドカード
+   （`api.*`）> キャッチオール（`*`）。勝つ vhost はちょうど 1 つ。
+2. **その vhost 内で `routes` を上から順に評価し、最初に一致したものが勝つ。** route の
+   一致は「最も具体的」ではなく順序依存。だから広い `prefix: "/"` を先頭に置くと、
+   それ以降を全部覆い隠す。
+
+```mermaid
+flowchart TB
+    accTitle: Envoy が virtual host を選び、次に route を選ぶ流れ
+    accDescr: Envoy はまず Host ヘッダを domains と具体性で照合して virtual host を 1 つ選び、その vhost の routes を上から評価して最初に一致したものを採用する。
+    req["request<br/>Host: api.example.com<br/>path: /v2/orders"] --> vh{"Host を vhost の<br/>domains と照合<br/>(最も具体的が勝つ)"}
+    vh --> picked["vhost: *.example.com"]
+    picked --> r1{"route 1<br/>prefix /v1 ?"}
+    r1 -- no --> r2{"route 2<br/>prefix /v2 ?"}
+    r2 -- yes, 最初の一致 --> out["cluster: orders-v2"]
+    r1 -- yes --> stop1["(一致すればこちらが勝つ)"]
+    class req ext
+    class out cds
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+```
+
+ここから出てくる実務ルール:
+
+- **具体的な route を先に、キャッチオール（`prefix: "/"`）は最後に**。さもないと
+  キャッチオールが全部食う。
+- どの vhost にも Host が一致しなければ 404。vhost には一致したが中の route に
+  一致しなければ、それも 404。
+- `match` は path 以外も見られる: `headers`、`query_parameters`、メソッド
+  （`:method`）。「最初の一致が勝つ」ので、優先順位を明示的に書ける。
+
 ## なぜ RDS は LDS から分かれているのか
 
 ルーティングは、*L7 的な理由で*最も頻繁に変わる設定だ。バージョン間のトラフィック移行、カナリアの重み、パス追加、タイムアウト変更。RDS を LDS から分けると、**listener に触れずに** ルーティングを作り変えられる。ソケットの入れ替えも接続ドレインもない。listener は上がったまま、ルートテーブルだけが差し替わる。

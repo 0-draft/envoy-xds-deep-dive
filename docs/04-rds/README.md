@@ -46,6 +46,43 @@ flowchart LR
           route: { cluster: service_backend }   # <- names a CDS cluster
 ```
 
+## How a request finds its route (matching order)
+
+Picking a route is a **two-level** match, and the order matters:
+
+1. **Choose the virtual host by `:authority` (the Host header).** Envoy compares
+   the host against every vhost's `domains` and picks the most specific match, in
+   this priority: exact (`api.example.com`) > suffix wildcard (`*.example.com`) >
+   prefix wildcard (`api.*`) > catch-all (`*`). Exactly one vhost wins.
+2. **Within that vhost, evaluate `routes` top to bottom; the first match wins.**
+   Route matching is ordered, not "most specific", so a broad `prefix: "/"`
+   placed first will shadow everything below it.
+
+```mermaid
+flowchart TB
+    accTitle: How Envoy selects a virtual host and then a route
+    accDescr: Envoy first selects one virtual host by matching the Host header against domains by specificity, then evaluates that vhost's routes top to bottom and takes the first match.
+    req["request<br/>Host: api.example.com<br/>path: /v2/orders"] --> vh{"match Host<br/>against vhost domains<br/>(most specific wins)"}
+    vh --> picked["vhost: *.example.com"]
+    picked --> r1{"route 1<br/>prefix /v1 ?"}
+    r1 -- no --> r2{"route 2<br/>prefix /v2 ?"}
+    r2 -- yes, first match --> out["cluster: orders-v2"]
+    r1 -- yes --> stop1["(would win if matched)"]
+    class req ext
+    class out cds
+    classDef ext fill:#374151,stroke:#9ca3af,color:#fff
+    classDef cds fill:#78350f,stroke:#fbbf24,color:#fff
+```
+
+The practical rules that fall out of this:
+
+- Put **specific routes first, catch-all (`prefix: "/"`) last**, or the catch-all
+  eats everything.
+- A request whose Host matches no vhost gets a 404; a Host that matches a vhost
+  but no route inside it also 404s.
+- `match` can key on more than path: `headers`, `query_parameters`, method
+  (`:method`), so "first match wins" lets you express priority explicitly.
+
 ## Why RDS is split from LDS
 
 Routing is the part of config that changes most often *for L7 reasons*: shifting traffic between versions, canary weights, adding a path, changing a timeout. Splitting RDS from LDS means you can reshape routing **without touching the listener**: no socket churn, no connection draining. The listener stays up; only its route table is swapped.

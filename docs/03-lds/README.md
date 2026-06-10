@@ -54,6 +54,37 @@ Choosing `rds` is what makes the LDS → RDS split real. The listener says "my r
                 typed_config: { "@type": type.googleapis.com/...Router }
 ```
 
+## The HTTP filter chain (where auth, rate limits, etc. live)
+
+Our examples show a single HTTP filter, `router` (the one that actually performs
+the route lookup and forwards upstream). But `http_filters` is an **ordered
+list**, and every request passes through it top to bottom *before* routing
+happens. This is where cross-cutting concerns live:
+
+```yaml
+http_filters:
+  - name: envoy.filters.http.cors          # CORS handling
+  - name: envoy.filters.http.jwt_authn     # verify a JWT
+  - name: envoy.filters.http.ext_authz     # call an external authorizer
+  - name: envoy.filters.http.ratelimit     # rate limiting
+  - name: envoy.filters.http.router        # MUST be last: terminal filter
+```
+
+Two rules to remember:
+
+- **`router` is terminal and must be last.** Filters before it can inspect,
+  mutate, delay, or reject the request (e.g. `ext_authz` returning 403 stops the
+  request before it ever reaches a cluster). The router ends the chain by
+  dispatching upstream.
+- **The filter chain is owned by the listener (LDS), not by routes (RDS).** So
+  "turn on auth for this listener" is an LDS change; "send `/admin` to a different
+  backend" is an RDS change. Per-route tweaks to a filter are possible via
+  `typed_per_filter_config` on the route, but the *set* of filters is a listener
+  concern.
+
+This is the answer to "where does authn/authz/rate-limiting happen?" — not in the
+route or the cluster, but in the HTTP filter chain that the listener carries.
+
 ## Dependency rules
 
 A listener references a route config (and ultimately clusters). Under "make before break":
