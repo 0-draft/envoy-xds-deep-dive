@@ -4,6 +4,13 @@
 
 RDS discovers **RouteConfigurations**: the rules that match an incoming HTTP request (by host and path) and decide which cluster it goes to. It sits between LDS and CDS.
 
+Where a **Cluster** *bundles* interchangeable endpoints, a **route** is the opposite kind of thing: a **classifier**. It selects a cluster by the request's attributes (host, path, headers), deterministically, so the same request always lands on the same cluster. The two selections in the chain are mirror images:
+
+- **route -> cluster**: pick the *correct* one among *different* things, by matching. Deterministic.
+- **cluster -> endpoint**: pick *any* one among *interchangeable* things, by load balancing. Non-deterministic.
+
+(The exception is `weighted_clusters`, which deliberately splits one route across substitutable variants of the same service by weight, for canary rollouts.)
+
 ```mermaid
 flowchart LR
     accTitle: Where RDS sits in the dependency chain

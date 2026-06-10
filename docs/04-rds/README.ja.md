@@ -4,6 +4,13 @@
 
 RDS は **RouteConfiguration** を配信する。届いた HTTP リクエストを（host と path で）一致させ、どの cluster へ送るかを決める規則だ。LDS と CDS の間に座る。
 
+**Cluster** が交換可能な endpoint を*束ねる*のに対し、**route** はその逆で**分類器**だ。リクエストの属性（host, path, ヘッダ）で cluster を決定的に選ぶので、同じリクエストは必ず同じ cluster に着く。チェーン上の 2 つの「選択」は鏡像になっている。
+
+- **route -> cluster**: *違うもの*の中から*正しい 1 つ*を一致で選ぶ。決定的。
+- **cluster -> endpoint**: *交換可能なもの*の中から*どれか 1 つ*を LB で選ぶ。非決定的。
+
+（例外は `weighted_clusters`。同じサービスの代替バリアント間を、カナリアのために重みで意図的に分配する。）
+
 ```mermaid
 flowchart LR
     accTitle: 依存チェーンにおける RDS の位置
