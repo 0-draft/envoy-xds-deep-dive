@@ -93,11 +93,11 @@ api::default_priority::max_requests::1024   # circuit breaker threshold
 
 None of these links are one-to-one:
 
-| Relationship | Cardinality | Why |
-| --- | --- | --- |
-| cluster -> endpoint | 1 : N | a cluster is a pool; endpoints are its members |
-| route -> cluster | 1 usual / N weighted | a route names one cluster, or splits across several by weight |
-| cluster -> route | 1 : N | many routes can target the same cluster |
+| Relationship        | Cardinality          | Why                                                           |
+| ------------------- | -------------------- | ------------------------------------------------------------- |
+| cluster -> endpoint | 1 : N                | a cluster is a pool; endpoints are its members                |
+| route -> cluster    | 1 usual / N weighted | a route names one cluster, or splits across several by weight |
+| cluster -> route    | 1 : N                | many routes can target the same cluster                       |
 
 ```mermaid
 flowchart LR
