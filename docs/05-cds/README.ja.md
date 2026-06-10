@@ -93,11 +93,11 @@ api::default_priority::max_requests::1024   # サーキットブレーカ閾値
 
 どれも 1 対 1 ではない。
 
-| 関係 | 基数 | なぜ |
-| --- | --- | --- |
-| cluster -> endpoint | 1 : N | cluster はプール、endpoint はそのメンバ |
-| route -> cluster | 通常 1 / weighted で N | route は cluster を 1 つ指す、または重みで複数に分ける |
-| cluster -> route | 1 : N | 複数の route が同じ cluster を指せる |
+| 関係                | 基数                   | なぜ                                                   |
+| ------------------- | ---------------------- | ------------------------------------------------------ |
+| cluster -> endpoint | 1 : N                  | cluster はプール、endpoint はそのメンバ                |
+| route -> cluster    | 通常 1 / weighted で N | route は cluster を 1 つ指す、または重みで複数に分ける |
+| cluster -> route    | 1 : N                  | 複数の route が同じ cluster を指せる                   |
 
 ```mermaid
 flowchart LR
